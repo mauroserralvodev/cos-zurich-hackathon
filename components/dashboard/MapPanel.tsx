@@ -20,7 +20,7 @@ export default function MapPanel({
   people,
 }: MapPanelProps) {
   return (
-    <section className="relative h-full max-w-198.5 overflow-hidden rounded-3xl border border-black/10 bg-white">
+    <section className="relative h-full max-w-199 overflow-hidden rounded-4xl border border-black/10 bg-white">
       <div className="relative h-full w-full bg-neutral-50">
         <div className="absolute right-5 top-5 z-30">
           <div className="inline-flex cursor-pointer rounded-3xl border border-black/10 bg-white p-1">

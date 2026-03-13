@@ -1,6 +1,7 @@
 "use client";
 
 import type { ManualStats } from "@/lib/collective-os/types";
+import ParameterCard from "./ParameterCard";
 import StatInput from "./StatInput";
 import TotalHint from "./TotalHint";
 
@@ -20,7 +21,7 @@ export default function SocioeconomicCard({
   areaTotal,
 }: SocioeconomicCardProps) {
   return (
-    <div className="rounded-3xl border border-black/10 bg-neutral-50 p-4">
+    <ParameterCard>
       <div className="space-y-3">
         <div>
           <p className="mb-2 text-sm font-medium text-neutral-900">
@@ -120,6 +121,6 @@ export default function SocioeconomicCard({
           </div>
         </div>
       </div>
-    </div>
+    </ParameterCard>
   );
 }

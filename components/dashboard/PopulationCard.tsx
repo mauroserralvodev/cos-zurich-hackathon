@@ -2,6 +2,7 @@
 
 import { ACCENT } from "@/lib/collective-os/constants";
 import type { ManualStats } from "@/lib/collective-os/types";
+import ParameterCard from "./ParameterCard";
 import StatInput from "./StatInput";
 import TotalHint from "./TotalHint";
 
@@ -21,7 +22,7 @@ export default function PopulationCard({
   ageTotal,
 }: PopulationCardProps) {
   return (
-    <div className="rounded-3xl border border-black/10 bg-neutral-50 p-4">
+    <ParameterCard>
       <div className="mb-3 flex items-center justify-between gap-3">
         <p className="text-sm font-medium text-neutral-900">Population</p>
         <span className="rounded-full bg-white px-2.5 py-1 text-xs text-neutral-600">
@@ -85,6 +86,6 @@ export default function PopulationCard({
         </div>
         <TotalHint total={ageTotal} />
       </div>
-    </div>
+    </ParameterCard>
   );
 }
