@@ -102,7 +102,7 @@ export default function DashPage() {
   };
 
   return (
-    <main className="h-screen overflow-hidden bg-white p-4 md:p-6">
+    <main className="h-screen overflow-hidden bg-neutral-50 p-4 md:p-6">
       <div className="mx-auto grid h-full max-w-425 grid-cols-1 gap-4 lg:grid-cols-[800px_minmax(0,1fr)]">
         <DashboardSidebar
           phase={phase}

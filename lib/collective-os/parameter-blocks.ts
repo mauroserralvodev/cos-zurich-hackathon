@@ -48,12 +48,5 @@ export const PARAMETER_BLOCK_OPTIONS: {
 ];
 
 export const DEFAULT_PARAMETER_BLOCKS: ParameterBlockId[] = [
-  "age",
-  "income",
-  "education",
-  "urbanContext",
-  "ideology",
-  "institutionalTrust",
-  "innovationAdoption",
-  "priceSensitivity",
+
 ];

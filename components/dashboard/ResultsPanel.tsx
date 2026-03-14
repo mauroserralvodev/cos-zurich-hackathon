@@ -31,7 +31,7 @@ function ResultBar({
 
 export default function ResultsPanel({ result }: ResultsPanelProps) {
   return (
-    <div className="rounded-3xl border border-black/10 bg-neutral-50 p-4">
+    <div className="rounded-3xl border border-black/10 bg-white p-4">
       <div className="mb-4">
         <p className="text-sm font-medium text-neutral-900">Synthetic response</p>
         <p className="mt-1 text-sm text-neutral-500">

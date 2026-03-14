@@ -54,31 +54,28 @@ export default function AddParameterModal({
                     type="button"
                     onClick={() => onToggleBlock(item.id)}
                     className={[
-                      "group relative w-full cursor-pointer overflow-hidden rounded-3xl border px-4 py-4 text-left transition-all duration-300",
+                      "group relative w-full cursor-pointer overflow-hidden rounded-3xl border px-4 py-3 text-left transition-all duration-300",
                       "min-h-12",
                       isSelected
                         ? "border-[#FF5500]/20 bg-[#fff7f3]"
-                        : "border-black/8 bg-white/80 s hover:-translate-y-px hover:bg-white",
+                        : "border-black/8 bg-white/80 hover:-translate-y-px hover:bg-white",
                     ].join(" ")}
                   >
-                    <div className="grid h-full grid-cols-[1fr_auto] items-center gap-4">
-                      <div className="min-w-0 h-full">
+                    <div className="flex min-h-12 items-center justify-between gap-4">
+                      <div className="min-w-0 flex-1">
                         <span className="block text-sm font-medium tracking-[-0.01em] text-neutral-900">
                           {item.label}
                         </span>
 
-                        <p className="mt-1 min-h-10 text-xs text-neutral-400">
+                        <p className="mt-1 text-xs leading-snug text-neutral-400">
                           {item.description}
                         </p>
                       </div>
 
                       <div
                         className={[
-                          "relative h-8 w-8 shrink-0 rounded-full border transition-all duration-300",
-                          "flex items-center justify-center h-full",
-                          isSelected
-                            ? "border-none"
-                            : "border-none",
+                          "relative flex h-8 w-8 shrink-0 items-center justify-center rounded-full transition-all duration-300",
+                          isSelected ? "border-none" : "border-none",
                         ].join(" ")}
                       >
                         <Plus

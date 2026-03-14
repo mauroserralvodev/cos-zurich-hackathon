@@ -2,8 +2,8 @@
 
 import type { ManualStats } from "@/lib/collective-os/types";
 import ParameterCard from "./ParameterCard";
-import StatInput from "./StatInput";
-import TotalHint from "./TotalHint";
+import StatInput from "../ui/StatInput";
+import TotalHint from "../ui/TotalHint";
 
 type SocioeconomicCardProps = {
   stats: ManualStats;

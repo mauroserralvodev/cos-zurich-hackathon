@@ -113,11 +113,11 @@ export default function PopulationSetupView({
   return (
     <div className="relative min-h-0 flex-1">
       {showTopFade && (
-        <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-15 bg-linear-to-b from-white to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-15 bg-linear-to-b from-neutral-50 to-transparent" />
       )}
 
       {showBottomFade && (
-        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-15 bg-linear-to-t from-white to-transparent" />
+        <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-15 bg-linear-to-t from-neutral-50 to-transparent" />
       )}
 
       <div

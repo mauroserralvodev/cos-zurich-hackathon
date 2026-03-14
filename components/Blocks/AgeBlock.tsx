@@ -2,8 +2,8 @@
 
 import type { ManualStats } from "@/lib/collective-os/types";
 import ParameterCard from "../dashboard/ParameterCard";
-import StatInput from "../dashboard/StatInput";
-import TotalHint from "../dashboard/TotalHint";
+import StatInput from "../ui/StatInput";
+import TotalHint from "../ui/TotalHint";
 
 type AgeBlockProps = {
   stats: ManualStats;

@@ -148,7 +148,7 @@ export default function DashboardSidebar({
             {phase === "setup"
               ? hasStarted
                 ? "Regenerate population"
-                : "Start simulation"
+                : "Continue"
               : "Run simulation"}
           </button>
         </div>

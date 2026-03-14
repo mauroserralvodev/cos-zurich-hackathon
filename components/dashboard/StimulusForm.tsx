@@ -9,7 +9,7 @@ type StimulusFormProps = {
 
 export default function StimulusForm({ form, setForm }: StimulusFormProps) {
   return (
-    <div className="rounded-3xl border border-black/10 bg-neutral-50 p-4">
+    <div className="rounded-3xl border border-black/10 bg-white p-4">
       <div className="space-y-4">
         <div>
           <p className="mb-2 text-sm font-medium text-neutral-900">
