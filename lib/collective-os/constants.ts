@@ -1,4 +1,23 @@
 import type { ManualStats } from "./types";
+import type { SimulationResult, StimulusFormState } from "./types";
+
+export const DEFAULT_STIMULUS_FORM: StimulusFormState = {
+  type: "advertising",
+  title: "",
+  description: "",
+  tone: "Neutral",
+  channel: "Social media",
+  pricePoint: "",
+  cta: "",
+};
+
+export const DEFAULT_SIMULATION_RESULT: SimulationResult = {
+  publicAcceptance: 68,
+  purchaseIntent: 42,
+  trustImpact: 57,
+  virality: 61,
+  negativeReaction: 23,
+};
 
 export const ACCENT = "#FF5500";
 

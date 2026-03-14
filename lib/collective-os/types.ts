@@ -59,3 +59,38 @@ export type ManualStats = {
   mediumPriceSensitivity: number;
   highPriceSensitivity: number;
 };
+
+export type DashboardPhase = "setup" | "stimulus";
+
+export type StimulusType =
+  | "advertising"
+  | "government"
+  | "product-launch";
+
+export type SimulationResult = {
+  publicAcceptance: number;
+  purchaseIntent: number;
+  trustImpact: number;
+  virality: number;
+  negativeReaction: number;
+};
+
+export type StimulusFormState = {
+  type: StimulusType;
+  title: string;
+  description: string;
+  tone: "Neutral" | "Optimistic" | "Urgent" | "Provocative";
+  channel: "Social media" | "Billboard" | "TV" | "Press";
+  pricePoint: string;
+  cta: string;
+};
+
+export type ParameterBlockId =
+  | "age"
+  | "income"
+  | "education"
+  | "urbanContext"
+  | "ideology"
+  | "institutionalTrust"
+  | "innovationAdoption"
+  | "priceSensitivity";

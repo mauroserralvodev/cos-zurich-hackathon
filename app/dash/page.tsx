@@ -1,19 +1,35 @@
-
 "use client";
 
 import { useEffect, useRef, useState } from "react";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import MapPanel from "@/components/dashboard/MapPanel";
-import { ACCENT, DEFAULT_STATS } from "@/lib/collective-os/constants";
+import {
+  ACCENT,
+  DEFAULT_SIMULATION_RESULT,
+  DEFAULT_STATS,
+  DEFAULT_STIMULUS_FORM,
+} from "@/lib/collective-os/constants";
 import { generatePeopleInZurichShape } from "@/lib/collective-os/simulation";
-import type { ManualStats, MapMode, Person } from "@/lib/collective-os/types";
+import type {
+  DashboardPhase,
+  ManualStats,
+  MapMode,
+  Person,
+  SimulationResult,
+  StimulusFormState,
+} from "@/lib/collective-os/types";
 
 export default function DashPage() {
+  const [phase, setPhase] = useState<DashboardPhase>("setup");
   const [peopleCount, setPeopleCount] = useState(500);
   const [mapMode, setMapMode] = useState<MapMode>("satellite");
   const [simulationVersion, setSimulationVersion] = useState(1);
   const [people, setPeople] = useState<Person[]>([]);
   const [stats, setStats] = useState<ManualStats>(DEFAULT_STATS);
+  const [stimulusForm, setStimulusForm] =
+    useState<StimulusFormState>(DEFAULT_STIMULUS_FORM);
+  const [simulationResult, setSimulationResult] =
+    useState<SimulationResult>(DEFAULT_SIMULATION_RESULT);
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [showTopFade, setShowTopFade] = useState(false);
@@ -57,9 +73,7 @@ export default function DashPage() {
     stats.basicEducation + stats.secondaryEducation + stats.higherEducation;
 
   const areaTotal = stats.urban + stats.suburban + stats.rural;
-
   const trustTotal = stats.lowTrust + stats.mediumTrust + stats.highTrust;
-
   const adoptionTotal =
     stats.earlyAdopters + stats.mainstreamAdopters + stats.lateAdopters;
 
@@ -71,10 +85,27 @@ export default function DashPage() {
   const mapSrc = mapMode === "map" ? "/map.png" : "/satelite.png";
   const hasStarted = simulationVersion > 1;
 
+  const handlePrimaryAction = () => {
+    if (phase === "setup") {
+      setSimulationVersion((prev) => prev + 1);
+      setPhase("stimulus");
+      return;
+    }
+
+    setSimulationResult({
+      publicAcceptance: 74,
+      purchaseIntent: 48,
+      trustImpact: 62,
+      virality: 69,
+      negativeReaction: 19,
+    });
+  };
+
   return (
     <main className="h-screen overflow-hidden bg-white p-4 md:p-6">
       <div className="mx-auto grid h-full max-w-425 grid-cols-1 gap-4 lg:grid-cols-[800px_minmax(0,1fr)]">
         <DashboardSidebar
+          phase={phase}
           peopleCount={peopleCount}
           setPeopleCount={setPeopleCount}
           stats={stats}
@@ -92,8 +123,11 @@ export default function DashPage() {
           adoptionTotal={adoptionTotal}
           priceSensitivityTotal={priceSensitivityTotal}
           hasStarted={hasStarted}
-          onStartSimulation={() => setSimulationVersion((prev) => prev + 1)}
+          onPrimaryAction={handlePrimaryAction}
           accent={ACCENT}
+          stimulusForm={stimulusForm}
+          setStimulusForm={setStimulusForm}
+          simulationResult={simulationResult}
         />
 
         <MapPanel

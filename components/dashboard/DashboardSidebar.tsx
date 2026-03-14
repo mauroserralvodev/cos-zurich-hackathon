@@ -2,14 +2,22 @@
 
 import Image from "next/image";
 import { Plus } from "lucide-react";
-import { useMemo, useState } from "react";
-import type { ManualStats } from "@/lib/collective-os/types";
+import { useState } from "react";
+import { DEFAULT_PARAMETER_BLOCKS } from "@/lib/collective-os/parameter-blocks";
+import type {
+  DashboardPhase,
+  ManualStats,
+  ParameterBlockId,
+  SimulationResult,
+  StimulusFormState,
+} from "@/lib/collective-os/types";
 import AddParameterModal from "./AddParameterModal";
-import BehavioralCard from "./BehavioralCard";
-import PopulationCard from "./PopulationCard";
-import SocioeconomicCard from "./SocioeconomicCard";
+import PopulationSetupView from "./PopulationSetupView";
+import StimulusSimulationView from "./StimulusSimulationView";
+import Link from "next/link";
 
 type DashboardSidebarProps = {
+  phase: DashboardPhase;
   peopleCount: number;
   setPeopleCount: React.Dispatch<React.SetStateAction<number>>;
   stats: ManualStats;
@@ -27,11 +35,15 @@ type DashboardSidebarProps = {
   adoptionTotal: number;
   priceSensitivityTotal: number;
   hasStarted: boolean;
-  onStartSimulation: () => void;
+  onPrimaryAction: () => void;
   accent: string;
+  stimulusForm: StimulusFormState;
+  setStimulusForm: React.Dispatch<React.SetStateAction<StimulusFormState>>;
+  simulationResult: SimulationResult;
 };
 
 export default function DashboardSidebar({
+  phase,
   peopleCount,
   setPeopleCount,
   stats,
@@ -49,122 +61,98 @@ export default function DashboardSidebar({
   adoptionTotal,
   priceSensitivityTotal,
   hasStarted,
-  onStartSimulation,
+  onPrimaryAction,
   accent,
+  stimulusForm,
+  setStimulusForm,
+  simulationResult,
 }: DashboardSidebarProps) {
   const [showAddParameterModal, setShowAddParameterModal] = useState(false);
+  const [selectedBlocks, setSelectedBlocks] =
+    useState<ParameterBlockId[]>(DEFAULT_PARAMETER_BLOCKS);
 
-  const cards = useMemo(
-    () => [
-      <PopulationCard
-        key="population"
-        peopleCount={peopleCount}
-        setPeopleCount={setPeopleCount}
-        stats={stats}
-        setStats={setStats}
-        ageTotal={ageTotal}
-      />,
-      <SocioeconomicCard
-        key="socioeconomic"
-        stats={stats}
-        setStats={setStats}
-        incomeTotal={incomeTotal}
-        educationTotal={educationTotal}
-        areaTotal={areaTotal}
-      />,
-      <BehavioralCard
-        key="behavioral"
-        stats={stats}
-        setStats={setStats}
-        ideologyTotal={ideologyTotal}
-        trustTotal={trustTotal}
-        adoptionTotal={adoptionTotal}
-        priceSensitivityTotal={priceSensitivityTotal}
-      />,
-    ],
-    [
-      peopleCount,
-      setPeopleCount,
-      stats,
-      setStats,
-      ageTotal,
-      incomeTotal,
-      educationTotal,
-      areaTotal,
-      ideologyTotal,
-      trustTotal,
-      adoptionTotal,
-      priceSensitivityTotal,
-    ]
-  );
+  const toggleBlock = (blockId: ParameterBlockId) => {
+    setSelectedBlocks((prev) =>
+      prev.includes(blockId)
+        ? prev.filter((item) => item !== blockId)
+        : [...prev, blockId]
+    );
+  };
 
   return (
-    <section className="relative flex h-full min-h-0 flex-col p-5 md:p-6">
+    <>
       <AddParameterModal
         open={showAddParameterModal}
+        selectedBlocks={selectedBlocks}
+        onToggleBlock={toggleBlock}
         onClose={() => setShowAddParameterModal(false)}
       />
 
-      <div className="mb-5 flex shrink-0 items-center justify-between">
-        <div className="flex items-center">
-          <div className="relative h-18 w-18 overflow-hidden">
+      <section className="relative flex h-full min-h-0 flex-col p-5 md:p-6">
+        <div className="mb-5 shrink-0 flex items-center justify-between">
+          <Link href="/" className="relative h-18 w-18 overflow-hidden">
             <Image
               src="/logo.png"
               alt="COS logo"
               fill
               className="object-contain"
             />
-          </div>
-        </div>
+          </Link>
 
-        <button
-          type="button"
-          onClick={() => setShowAddParameterModal(true)}
-          className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-neutral-300 border-dashed transition hover:border-[#FF5500]"
-          aria-label="Add parameter"
-        >
-          <Plus className="h-5 w-5 text-neutral-500 transition-transform duration-300 group-hover:rotate-90 group-hover:text-[#FF5500]" />
-        </button>
-      </div>
-
-      <div className="relative min-h-0 flex-1">
-        {showTopFade && (
-          <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-15 bg-linear-to-b from-white to-transparent" />
-        )}
-
-        {showBottomFade && (
-          <div className="pointer-events-none absolute inset-x-0 bottom-0 z-20 h-15 bg-linear-to-t from-white to-transparent" />
-        )}
-
-        <div
-          ref={scrollRef}
-          onScroll={updateScrollFades}
-          className="h-full overflow-y-auto  no-scrollbar"
-        >
-          {cards.length > 0 ? (
-            <div className="space-y-3">{cards}</div>
-          ) : (
-            <div className="rounded-3xl border border-dashed border-black/10 bg-neutral-50 px-5 py-8 text-center">
-              <p className="text-sm font-medium text-neutral-900">
-                No parameter cards yet
-              </p>
-              <p className="mt-1 text-sm text-neutral-500">
-                Use the + button to simulate adding your first parameter.
-              </p>
-            </div>
+          {phase === "setup" && (
+            <button
+              type="button"
+              onClick={() => setShowAddParameterModal(true)}
+              className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-dashed border-neutral-300 transition hover:border-[#FF5500]"
+              aria-label="Add parameter"
+            >
+              <Plus className="h-5 w-5 text-neutral-500 transition-transform duration-300 group-hover:rotate-90 group-hover:text-[#FF5500]" />
+            </button>
           )}
         </div>
-      </div>
 
-      <div className="shrink-0 pt-4">
-        <button
-          onClick={onStartSimulation}
-          className="h-12 w-full cursor-pointer rounded-3xl px-4 text-sm font-medium text-white shadow-sm transition hover:opacity-95"
-          style={{ backgroundColor: accent }}
-        >
-          {hasStarted ? "Regenerate simulation" : "Start simulation"}
-        </button>
-      </div>
-    </section>
+        {phase === "setup" ? (
+          <PopulationSetupView
+            peopleCount={peopleCount}
+            setPeopleCount={setPeopleCount}
+            stats={stats}
+            setStats={setStats}
+            selectedBlocks={selectedBlocks}
+            scrollRef={scrollRef}
+            showTopFade={showTopFade}
+            showBottomFade={showBottomFade}
+            updateScrollFades={updateScrollFades}
+            ageTotal={ageTotal}
+            incomeTotal={incomeTotal}
+            educationTotal={educationTotal}
+            areaTotal={areaTotal}
+            ideologyTotal={ideologyTotal}
+            trustTotal={trustTotal}
+            adoptionTotal={adoptionTotal}
+            priceSensitivityTotal={priceSensitivityTotal}
+          />
+        ) : (
+          <StimulusSimulationView
+            form={stimulusForm}
+            setForm={setStimulusForm}
+            result={simulationResult}
+          />
+        )}
+
+        <div className="pt-4 shrink-0">
+          <button
+            onClick={onPrimaryAction}
+            className="h-12 w-full cursor-pointer rounded-3xl px-4 text-sm font-medium text-white shadow-sm transition hover:opacity-95"
+            style={{ backgroundColor: accent }}
+          >
+            {phase === "setup"
+              ? hasStarted
+                ? "Regenerate population"
+                : "Start simulation"
+              : "Run simulation"}
+          </button>
+        </div>
+      </section>
+    </>
   );
 }
