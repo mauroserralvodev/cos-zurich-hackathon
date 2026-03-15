@@ -115,12 +115,12 @@ function pickZoneForPoint(px: number, py: number): ZoneType {
   const x = px / VIEWBOX_WIDTH;
   const y = py / VIEWBOX_HEIGHT;
 
-  const dxZurich = x - 0.43;
-  const dyZurich = y - 0.43;
+  const dxZurich = x - 0.30;
+  const dyZurich = y - 0.55;
   const distZurich = Math.sqrt(dxZurich * dxZurich + dyZurich * dyZurich);
 
-  const dxUrban = x - 0.47;
-  const dyUrban = y - 0.48;
+  const dxUrban = x - 0.32;
+  const dyUrban = y - 0.63;
   const distUrban = Math.sqrt(dxUrban * dxUrban + dyUrban * dyUrban);
 
   if (distZurich < 0.09) return "Zurich Core";

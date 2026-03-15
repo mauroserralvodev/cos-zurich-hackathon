@@ -2,6 +2,7 @@
 
 import { STIMULUS_FIELDS_BY_TYPE } from "@/lib/collective-os/stimulus-fields";
 import type { StimulusFormState } from "@/lib/collective-os/types";
+import { FileText, Image as ImageIcon } from "lucide-react";
 
 type StimulusFormProps = {
   form: StimulusFormState;
@@ -49,29 +50,62 @@ export default function StimulusForm({ form, setForm }: StimulusFormProps) {
             const value = form[field.key];
 
             if (field.type === "textarea") {
+              const isCampaignDescription =
+                field.label === "Campaign description";
+
               return (
-                <div key={field.key}>
-                  <label className="mb-1 block text-[11px] font-medium text-neutral-500">
-                    {field.label}
-                  </label>
-                  <textarea
-                    value={String(value ?? "")}
-                    onChange={(e) =>
-                      setForm((prev) => ({
-                        ...prev,
-                        [field.key]: e.target.value,
-                      }))
-                    }
-                    className="min-h-24 w-full resize-none rounded-xl border border-black/10 bg-neutral-50 px-3 py-2.5 text-sm text-neutral-900 outline-none"
-                    placeholder={field.placeholder}
-                  />
+                <div key={String(field.key)} className="space-y-3">
+                  <div>
+                    <label className="mb-1 block text-[11px] font-medium text-neutral-500">
+                      {field.label}
+                    </label>
+                    <textarea
+                      value={String(value ?? "")}
+                      onChange={(e) =>
+                        setForm((prev) => ({
+                          ...prev,
+                          [field.key]: e.target.value,
+                        }))
+                      }
+                      className="min-h-24 w-full resize-none rounded-xl border border-black/10 bg-neutral-50 px-3 py-2.5 text-sm text-neutral-900 outline-none"
+                      placeholder={field.placeholder}
+                    />
+                  </div>
+
+                  {isCampaignDescription && (
+                    <div className="grid grid-cols-2 gap-3">
+                      <div className="rounded-2xl border border-dashed border-black/10 bg-neutral-50 p-4 hover:cursor-not-allowed">
+                        <div className="flex h-24 flex-col items-center justify-center text-center">
+                          <ImageIcon size={20} className="mb-2 text-neutral-500" />
+                          <p className="text-sm font-medium text-neutral-900">
+                            Upload image
+                          </p>
+                          <p className="text-xs text-neutral-500">
+                            JPG, PNG, WEBP
+                          </p>
+                        </div>
+                      </div>
+
+                      <div className="rounded-2xl border border-dashed border-black/10 bg-neutral-50 p-4 hover:cursor-not-allowed">
+                        <div className="flex h-24 flex-col items-center justify-center text-center">
+                          <FileText size={20} className="mb-2 text-neutral-500" />
+                          <p className="text-sm font-medium text-neutral-900">
+                            Upload file
+                          </p>
+                          <p className="text-xs text-neutral-500">
+                            PDF, DOCX, TXT
+                          </p>
+                        </div>
+                      </div>
+                    </div>
+                  )}
                 </div>
               );
             }
 
             if (field.type === "select") {
               return (
-                <div key={field.key}>
+                <div key={String(field.key)}>
                   <label className="mb-1 block text-[11px] font-medium text-neutral-500">
                     {field.label}
                   </label>
@@ -96,7 +130,7 @@ export default function StimulusForm({ form, setForm }: StimulusFormProps) {
             }
 
             return (
-              <div key={field.key}>
+              <div key={String(field.key)}>
                 <label className="mb-1 block text-[11px] font-medium text-neutral-500">
                   {field.label}
                 </label>

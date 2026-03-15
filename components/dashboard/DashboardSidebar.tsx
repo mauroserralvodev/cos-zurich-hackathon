@@ -158,13 +158,12 @@ export default function DashboardSidebar({
         <div className="pt-4 shrink-0">
           <button
             onClick={onPrimaryAction}
-            className="h-12 w-full cursor-pointer rounded-3xl px-4 text-sm font-medium text-white shadow-sm transition hover:opacity-95"
+            disabled={phase === "setup" && selectedBlocks.length === 0}
+            className="h-12 w-full cursor-pointer rounded-3xl px-4 text-sm font-medium text-white transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
             style={{ backgroundColor: accent }}
           >
             {phase === "setup"
-              ? hasStarted
-                ? "Regenerate population"
-                : "Start simulation"
+              ? "Continue"
               : phase === "stimulus"
               ? "Run simulation"
               : "Run again"}
