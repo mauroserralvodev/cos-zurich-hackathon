@@ -20,6 +20,9 @@ export type Person = {
   trust: Trust;
   adoption: Adoption;
   priceSensitivity: PriceSensitivity;
+  sentiment: number;
+  sentimentLabel: "Positive" | "Neutral" | "Negative";
+  zoneType: "Zurich Core" | "Urban Belt" | "Rural";
   x: number;
   y: number;
 };
@@ -60,11 +63,12 @@ export type ManualStats = {
   highPriceSensitivity: number;
 };
 
-export type DashboardPhase = "setup" | "stimulus";
+export type DashboardPhase = "setup" | "stimulus" | "results";
 
 export type StimulusType =
   | "advertising"
   | "government"
+  | "political"
   | "product-launch";
 
 export type SimulationResult = {
@@ -77,12 +81,26 @@ export type SimulationResult = {
 
 export type StimulusFormState = {
   type: StimulusType;
+
   title: string;
   description: string;
+
   tone: "Neutral" | "Optimistic" | "Urgent" | "Provocative";
   channel: "Social media" | "Billboard" | "TV" | "Press";
+
+  audienceGoal: string;
+
   pricePoint: string;
   cta: string;
+  brandName: string;
+
+  policyArea: string;
+  impactScope: "Local" | "Regional" | "National";
+  institutionSource: string;
+
+  candidate: string;
+  issueFocus: string;
+  slogan: string;
 };
 
 export type ParameterBlockId =

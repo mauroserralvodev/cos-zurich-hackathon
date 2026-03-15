@@ -92,13 +92,32 @@ export default function DashPage() {
       return;
     }
 
-    setSimulationResult({
-      publicAcceptance: 74,
-      purchaseIntent: 48,
-      trustImpact: 62,
-      virality: 69,
-      negativeReaction: 19,
-    });
+    if (phase === "stimulus") {
+      setSimulationResult({
+        publicAcceptance: 74,
+        purchaseIntent: 48,
+        trustImpact: 62,
+        virality: 69,
+        negativeReaction: 19,
+      });
+      setPhase("results");
+      return;
+    }
+
+    if (phase === "results") {
+      setPhase("stimulus");
+    }
+  };
+
+  const handleBack = () => {
+    if (phase === "results") {
+      setPhase("stimulus");
+      return;
+    }
+
+    if (phase === "stimulus") {
+      setPhase("setup");
+    }
   };
 
   return (
@@ -124,6 +143,7 @@ export default function DashPage() {
           priceSensitivityTotal={priceSensitivityTotal}
           hasStarted={hasStarted}
           onPrimaryAction={handlePrimaryAction}
+          onBack={handleBack}
           accent={ACCENT}
           stimulusForm={stimulusForm}
           setStimulusForm={setStimulusForm}

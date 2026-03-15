@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { Plus } from "lucide-react";
+import { ArrowLeft, Plus } from "lucide-react";
 import { useState } from "react";
 import { DEFAULT_PARAMETER_BLOCKS } from "@/lib/collective-os/parameter-blocks";
 import type {
@@ -13,8 +13,8 @@ import type {
 } from "@/lib/collective-os/types";
 import AddParameterModal from "./AddParameterModal";
 import PopulationSetupView from "./PopulationSetupView";
+import ResultsView from "./ResultsView";
 import StimulusSimulationView from "./StimulusSimulationView";
-import Link from "next/link";
 
 type DashboardSidebarProps = {
   phase: DashboardPhase;
@@ -36,6 +36,7 @@ type DashboardSidebarProps = {
   priceSensitivityTotal: number;
   hasStarted: boolean;
   onPrimaryAction: () => void;
+  onBack: () => void;
   accent: string;
   stimulusForm: StimulusFormState;
   setStimulusForm: React.Dispatch<React.SetStateAction<StimulusFormState>>;
@@ -62,6 +63,7 @@ export default function DashboardSidebar({
   priceSensitivityTotal,
   hasStarted,
   onPrimaryAction,
+  onBack,
   accent,
   stimulusForm,
   setStimulusForm,
@@ -90,16 +92,16 @@ export default function DashboardSidebar({
 
       <section className="relative flex h-full min-h-0 flex-col p-5 md:p-6">
         <div className="mb-5 shrink-0 flex items-center justify-between">
-          <Link href="/" className="relative h-18 w-18 overflow-hidden">
+          <div className="relative h-18 w-18 overflow-hidden">
             <Image
-              src="/logo.png"
+              src="/cos-logo.png"
               alt="COS logo"
               fill
               className="object-contain"
             />
-          </Link>
+          </div>
 
-          {phase === "setup" && (
+          {phase === "setup" ? (
             <button
               type="button"
               onClick={() => setShowAddParameterModal(true)}
@@ -108,10 +110,19 @@ export default function DashboardSidebar({
             >
               <Plus className="h-5 w-5 text-neutral-500 transition-transform duration-300 group-hover:rotate-90 group-hover:text-[#FF5500]" />
             </button>
+          ) : (
+            <button
+              type="button"
+              onClick={onBack}
+              className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-dashed border-black/10 bg-neutral-50 transition hover:border-black/20 hover:bg-neutral-100"
+              aria-label="Go back"
+            >
+              <ArrowLeft className="h-5 w-5 text-neutral-500" />
+            </button>
           )}
         </div>
 
-        {phase === "setup" ? (
+        {phase === "setup" && (
           <PopulationSetupView
             peopleCount={peopleCount}
             setPeopleCount={setPeopleCount}
@@ -131,12 +142,17 @@ export default function DashboardSidebar({
             adoptionTotal={adoptionTotal}
             priceSensitivityTotal={priceSensitivityTotal}
           />
-        ) : (
+        )}
+
+        {phase === "stimulus" && (
           <StimulusSimulationView
             form={stimulusForm}
             setForm={setStimulusForm}
-            result={simulationResult}
           />
+        )}
+
+        {phase === "results" && (
+          <ResultsView result={simulationResult} />
         )}
 
         <div className="pt-4 shrink-0">
@@ -148,8 +164,10 @@ export default function DashboardSidebar({
             {phase === "setup"
               ? hasStarted
                 ? "Regenerate population"
-                : "Continue"
-              : "Run simulation"}
+                : "Start simulation"
+              : phase === "stimulus"
+              ? "Run simulation"
+              : "Run again"}
           </button>
         </div>
       </section>

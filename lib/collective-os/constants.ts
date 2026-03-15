@@ -3,12 +3,26 @@ import type { SimulationResult, StimulusFormState } from "./types";
 
 export const DEFAULT_STIMULUS_FORM: StimulusFormState = {
   type: "advertising",
+
   title: "",
   description: "",
+
   tone: "Neutral",
   channel: "Social media",
+
+  audienceGoal: "",
+
   pricePoint: "",
   cta: "",
+  brandName: "",
+
+  policyArea: "",
+  impactScope: "Regional",
+  institutionSource: "",
+
+  candidate: "",
+  issueFocus: "",
+  slogan: "",
 };
 
 export const DEFAULT_SIMULATION_RESULT: SimulationResult = {

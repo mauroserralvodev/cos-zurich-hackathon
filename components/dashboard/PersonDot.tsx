@@ -1,11 +1,22 @@
 "use client";
 
-import { ACCENT } from "@/lib/collective-os/constants";
 import type { Person } from "@/lib/collective-os/types";
 
 type PersonDotProps = {
   person: Person;
 };
+
+function getSentimentColor(sentiment: number) {
+  if (sentiment >= 67) return "#22C55E";
+  if (sentiment >= 40) return "#EAB308";
+  return "#EF4444";
+}
+
+function getSentimentTextColor(sentiment: number) {
+  if (sentiment >= 67) return "text-green-600";
+  if (sentiment >= 40) return "text-yellow-600";
+  return "text-red-600";
+}
 
 export default function PersonDot({ person }: PersonDotProps) {
   return (
@@ -19,15 +30,15 @@ export default function PersonDot({ person }: PersonDotProps) {
     >
       <div
         className="h-2.5 w-2.5 rounded-full border border-white shadow-sm transition duration-200 group-hover:scale-150"
-        style={{ backgroundColor: ACCENT }}
+        style={{ backgroundColor: getSentimentColor(person.sentiment) }}
       />
 
-      <div className="pointer-events-none absolute left-1/2 top-4 z-999 hidden w-64 -translate-x-1/2 rounded-2xl border border-black/10 bg-white p-3 text-xs text-neutral-700 shadow-xl group-hover:block">
+      <div className="absolute left-1/2 top-4 z-999 hidden w-72 -translate-x-1/2 rounded-2xl border border-black/10 bg-white p-3 text-xs text-neutral-700 shadow-xl group-hover:block">
         <p className="mb-2 text-sm font-semibold text-neutral-900">
           {person.name}
         </p>
 
-        <div className="grid grid-cols-2 gap-x-3 gap-y-1.5">
+        <div className="mb-3 grid grid-cols-2 gap-x-3 gap-y-1.5">
           <p>
             <span className="text-neutral-500">Age:</span> {person.age}
           </p>
@@ -57,9 +68,25 @@ export default function PersonDot({ person }: PersonDotProps) {
             {person.priceSensitivity}
           </p>
           <p>
-            <span className="text-neutral-500">Cluster:</span> ZH-{person.id}
+            <span className="text-neutral-500">Zone:</span> {person.zoneType}
+          </p>
+          <p>
+            <span className="text-neutral-500">Sentiment:</span>{" "}
+            <span className={getSentimentTextColor(person.sentiment)}>
+              {person.sentimentLabel}
+            </span>
+          </p>
+          <p>
+            <span className="text-neutral-500">Score:</span> {person.sentiment}%
           </p>
         </div>
+
+        <button
+          type="button"
+          className="h-9 w-full cursor-pointer rounded-xl border border-black/10 bg-neutral-50 px-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100"
+        >
+          View opinion
+        </button>
       </div>
     </div>
   );
