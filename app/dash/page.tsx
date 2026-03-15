@@ -60,28 +60,6 @@ export default function DashPage() {
     updateScrollFades();
   }, []);
 
-  const ideologyTotal =
-    stats.right + stats.left + stats.apolitical + stats.other;
-
-  const incomeTotal =
-    stats.lowIncome + stats.mediumIncome + stats.highIncome;
-
-  const ageTotal =
-    stats.age18_24 + stats.age25_39 + stats.age40_64 + stats.age65Plus;
-
-  const educationTotal =
-    stats.basicEducation + stats.secondaryEducation + stats.higherEducation;
-
-  const areaTotal = stats.urban + stats.suburban + stats.rural;
-  const trustTotal = stats.lowTrust + stats.mediumTrust + stats.highTrust;
-  const adoptionTotal =
-    stats.earlyAdopters + stats.mainstreamAdopters + stats.lateAdopters;
-
-  const priceSensitivityTotal =
-    stats.lowPriceSensitivity +
-    stats.mediumPriceSensitivity +
-    stats.highPriceSensitivity;
-
   const mapSrc = mapMode === "map" ? "/map.png" : "/satelite.png";
   const hasStarted = simulationVersion > 1;
 
@@ -133,14 +111,6 @@ export default function DashPage() {
           showTopFade={showTopFade}
           showBottomFade={showBottomFade}
           updateScrollFades={updateScrollFades}
-          ageTotal={ageTotal}
-          incomeTotal={incomeTotal}
-          educationTotal={educationTotal}
-          areaTotal={areaTotal}
-          ideologyTotal={ideologyTotal}
-          trustTotal={trustTotal}
-          adoptionTotal={adoptionTotal}
-          priceSensitivityTotal={priceSensitivityTotal}
           hasStarted={hasStarted}
           onPrimaryAction={handlePrimaryAction}
           onBack={handleBack}

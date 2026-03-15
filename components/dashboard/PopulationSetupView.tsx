@@ -11,7 +11,6 @@ import AgeBlock from "../Blocks/AgeBlock";
 import IncomeBlock from "../Blocks/IncomeBlock";
 import EducationBlock from "../Blocks/EducationBlock";
 
-
 type PopulationSetupViewProps = {
   peopleCount: number;
   setPeopleCount: React.Dispatch<React.SetStateAction<number>>;
@@ -22,14 +21,6 @@ type PopulationSetupViewProps = {
   showTopFade: boolean;
   showBottomFade: boolean;
   updateScrollFades: () => void;
-  ageTotal: number;
-  incomeTotal: number;
-  educationTotal: number;
-  areaTotal: number;
-  ideologyTotal: number;
-  trustTotal: number;
-  adoptionTotal: number;
-  priceSensitivityTotal: number;
 };
 
 export default function PopulationSetupView({
@@ -42,71 +33,21 @@ export default function PopulationSetupView({
   showTopFade,
   showBottomFade,
   updateScrollFades,
-  ageTotal,
-  incomeTotal,
-  educationTotal,
-  areaTotal,
-  ideologyTotal,
-  trustTotal,
-  adoptionTotal,
-  priceSensitivityTotal,
 }: PopulationSetupViewProps) {
   const blockMap: Record<ParameterBlockId, React.ReactNode> = {
-    age: (
-      <AgeBlock
-        stats={stats}
-        setStats={setStats}
-        ageTotal={ageTotal}
-      />
-    ),
-    income: (
-      <IncomeBlock
-        stats={stats}
-        setStats={setStats}
-        incomeTotal={incomeTotal}
-      />
-    ),
-    education: (
-      <EducationBlock
-        stats={stats}
-        setStats={setStats}
-        educationTotal={educationTotal}
-      />
-    ),
-    urbanContext: (
-      <UrbanContextBlock
-        stats={stats}
-        setStats={setStats}
-        areaTotal={areaTotal}
-      />
-    ),
-    ideology: (
-      <IdeologyBlock
-        stats={stats}
-        setStats={setStats}
-        ideologyTotal={ideologyTotal}
-      />
-    ),
+    age: <AgeBlock stats={stats} setStats={setStats} />,
+    income: <IncomeBlock stats={stats} setStats={setStats} />,
+    education: <EducationBlock stats={stats} setStats={setStats} />,
+    urbanContext: <UrbanContextBlock stats={stats} setStats={setStats} />,
+    ideology: <IdeologyBlock stats={stats} setStats={setStats} />,
     institutionalTrust: (
-      <InstitutionalTrustBlock
-        stats={stats}
-        setStats={setStats}
-        trustTotal={trustTotal}
-      />
+      <InstitutionalTrustBlock stats={stats} setStats={setStats} />
     ),
     innovationAdoption: (
-      <InnovationAdoptionBlock
-        stats={stats}
-        setStats={setStats}
-        adoptionTotal={adoptionTotal}
-      />
+      <InnovationAdoptionBlock stats={stats} setStats={setStats} />
     ),
     priceSensitivity: (
-      <PriceSensitivityBlock
-        stats={stats}
-        setStats={setStats}
-        priceSensitivityTotal={priceSensitivityTotal}
-      />
+      <PriceSensitivityBlock stats={stats} setStats={setStats} />
     ),
   };
 
@@ -136,7 +77,7 @@ export default function PopulationSetupView({
               <div key={blockId}>{blockMap[blockId]}</div>
             ))
           ) : (
-            <div className="rounded-3xl border border-dashed border-black/10  px-5 py-8 text-center">
+            <div className="rounded-3xl border border-dashed border-black/10 px-5 py-8 text-center">
               <p className="text-sm font-medium text-neutral-900">
                 No parameter blocks selected
               </p>

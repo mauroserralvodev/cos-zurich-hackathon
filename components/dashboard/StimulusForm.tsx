@@ -13,13 +13,13 @@ export default function StimulusForm({ form, setForm }: StimulusFormProps) {
   const fields = STIMULUS_FIELDS_BY_TYPE[form.type];
 
   return (
-    <div className="rounded-3xl border border-black/10 bg-white p-4">
+    <div className="rounded-3xl border border-black/10 bg-white p-6">
       <div className="space-y-4">
         <div>
-          <p className="mb-2 text-sm font-medium text-neutral-900">
+          <p className="text-sm text-neutral-900">
             Stimulus
           </p>
-          <p className="text-sm text-neutral-500">
+          <p className="mt-1 text-xs leading-5 text-neutral-400">
             Define the input that the synthetic population will react to.
           </p>
         </div>

@@ -20,7 +20,7 @@ const SEGMENT_STYLES = [
   "bg-blue-500",
   "bg-red-500",
   "bg-yellow-500",
-  "bg-green-400",
+  "bg-green-500",
   "bg-neutral-300",
   "bg-neutral-200",
 ];
@@ -40,12 +40,8 @@ export default function DistributionEditor<T extends Record<string, number>>({
     setStats((prev) => rebalanceDistribution(prev, changedKey, value, keys, total));
   };
 
-  const handleEqualize = () => {
-    setStats((prev) => equalizeDistribution(prev, keys, total));
-  };
-
   return (
-    <div className="rounded-3xl border border-black/10 bg-white p-4">
+    <div className="rounded-3xl border border-black/10 bg-white p-6">
       <div className="mb-4 flex items-start justify-between gap-3">
         <div>
           <h3 className="text-sm  text-neutral-900">{title}</h3>

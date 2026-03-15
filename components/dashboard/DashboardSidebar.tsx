@@ -26,14 +26,6 @@ type DashboardSidebarProps = {
   showTopFade: boolean;
   showBottomFade: boolean;
   updateScrollFades: () => void;
-  ageTotal: number;
-  incomeTotal: number;
-  educationTotal: number;
-  areaTotal: number;
-  ideologyTotal: number;
-  trustTotal: number;
-  adoptionTotal: number;
-  priceSensitivityTotal: number;
   hasStarted: boolean;
   onPrimaryAction: () => void;
   onBack: () => void;
@@ -53,14 +45,6 @@ export default function DashboardSidebar({
   showTopFade,
   showBottomFade,
   updateScrollFades,
-  ageTotal,
-  incomeTotal,
-  educationTotal,
-  areaTotal,
-  ideologyTotal,
-  trustTotal,
-  adoptionTotal,
-  priceSensitivityTotal,
   hasStarted,
   onPrimaryAction,
   onBack,
@@ -133,14 +117,6 @@ export default function DashboardSidebar({
             showTopFade={showTopFade}
             showBottomFade={showBottomFade}
             updateScrollFades={updateScrollFades}
-            ageTotal={ageTotal}
-            incomeTotal={incomeTotal}
-            educationTotal={educationTotal}
-            areaTotal={areaTotal}
-            ideologyTotal={ideologyTotal}
-            trustTotal={trustTotal}
-            adoptionTotal={adoptionTotal}
-            priceSensitivityTotal={priceSensitivityTotal}
           />
         )}
 
@@ -151,11 +127,9 @@ export default function DashboardSidebar({
           />
         )}
 
-        {phase === "results" && (
-          <ResultsView result={simulationResult} />
-        )}
+        {phase === "results" && <ResultsView result={simulationResult} />}
 
-        <div className="pt-4 shrink-0">
+        <div className="shrink-0 pt-4">
           <button
             onClick={onPrimaryAction}
             disabled={phase === "setup" && selectedBlocks.length === 0}
@@ -165,8 +139,8 @@ export default function DashboardSidebar({
             {phase === "setup"
               ? "Continue"
               : phase === "stimulus"
-              ? "Run simulation"
-              : "Run again"}
+                ? "Run simulation"
+                : "Run again"}
           </button>
         </div>
       </section>
