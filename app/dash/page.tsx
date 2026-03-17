@@ -9,11 +9,14 @@ import {
   DEFAULT_STATS,
   DEFAULT_STIMULUS_FORM,
 } from "@/lib/collective-os/constants";
+import { DEFAULT_PARAMETER_BLOCKS } from "@/lib/collective-os/parameter-blocks";
+import { applySimulationScoresToPeople } from "@/lib/collective-os/person-scoring";
 import { generatePeopleInZurichShape } from "@/lib/collective-os/simulation";
 import type {
   DashboardPhase,
   ManualStats,
   MapMode,
+  ParameterBlockId,
   Person,
   SimulationResult,
   StimulusFormState,
@@ -30,6 +33,8 @@ export default function DashPage() {
     useState<StimulusFormState>(DEFAULT_STIMULUS_FORM);
   const [simulationResult, setSimulationResult] =
     useState<SimulationResult>(DEFAULT_SIMULATION_RESULT);
+  const [selectedBlocks, setSelectedBlocks] =
+    useState<ParameterBlockId[]>(DEFAULT_PARAMETER_BLOCKS);
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [showTopFade, setShowTopFade] = useState(false);
@@ -62,8 +67,9 @@ export default function DashPage() {
 
   const mapSrc = mapMode === "map" ? "/map.png" : "/satelite.png";
   const hasStarted = simulationVersion > 1;
+  const showSentiment = phase === "results";
 
-  const handlePrimaryAction = () => {
+  const handlePrimaryAction = async () => {
     if (phase === "setup") {
       setSimulationVersion((prev) => prev + 1);
       setPhase("stimulus");
@@ -71,14 +77,36 @@ export default function DashPage() {
     }
 
     if (phase === "stimulus") {
-      setSimulationResult({
-        publicAcceptance: 74,
-        purchaseIntent: 48,
-        trustImpact: 62,
-        virality: 69,
-        negativeReaction: 19,
-      });
-      setPhase("results");
+      try {
+        const res = await fetch("/api/simulate", {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify({
+            peopleCount,
+            stats,
+            stimulusForm,
+            selectedBlocks,
+          }),
+        });
+
+        if (!res.ok) {
+          throw new Error("Simulation request failed");
+        }
+
+        const result = await res.json();
+        console.log("SIMULATION RESULT:", result);
+
+        setSimulationResult(result.summary);
+        setPeople((prev) =>
+          applySimulationScoresToPeople(prev, result, selectedBlocks)
+        )
+        setPhase("results");
+      } catch (error) {
+        console.error(error);
+      }
+
       return;
     }
 
@@ -118,6 +146,8 @@ export default function DashPage() {
           stimulusForm={stimulusForm}
           setStimulusForm={setStimulusForm}
           simulationResult={simulationResult}
+          selectedBlocks={selectedBlocks}
+          setSelectedBlocks={setSelectedBlocks}
         />
 
         <MapPanel
@@ -125,6 +155,7 @@ export default function DashPage() {
           setMapMode={setMapMode}
           mapSrc={mapSrc}
           people={people}
+          showSentiment={showSentiment}
         />
       </div>
     </main>

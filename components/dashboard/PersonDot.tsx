@@ -4,11 +4,13 @@ import type { Person } from "@/lib/collective-os/types";
 
 type PersonDotProps = {
   person: Person;
+  showSentiment?: boolean;
 };
 
-function getSentimentColor(sentiment: number) {
-  if (sentiment >= 67) return "#22C55E";
-  if (sentiment >= 40) return "#EAB308";
+function getDotColor(person: Person, showSentiment: boolean) {
+  if (!showSentiment) return "#A3A3A3";
+  if (person.sentiment >= 67) return "#22C55E";
+  if (person.sentiment >= 40) return "#EAB308";
   return "#EF4444";
 }
 
@@ -18,7 +20,10 @@ function getSentimentTextColor(sentiment: number) {
   return "text-red-600";
 }
 
-export default function PersonDot({ person }: PersonDotProps) {
+export default function PersonDot({
+  person,
+  showSentiment = false,
+}: PersonDotProps) {
   return (
     <div
       className="group absolute hover:z-1000"
@@ -30,7 +35,7 @@ export default function PersonDot({ person }: PersonDotProps) {
     >
       <div
         className="h-2.5 w-2.5 rounded-full border border-white shadow-sm transition duration-200 group-hover:scale-150"
-        style={{ backgroundColor: getSentimentColor(person.sentiment) }}
+        style={{ backgroundColor: getDotColor(person, showSentiment) }}
       />
 
       <div className="absolute left-1/2 top-4 z-999 hidden w-72 -translate-x-1/2 rounded-2xl border border-black/10 bg-white p-3 text-xs text-neutral-700 shadow-xl group-hover:block">

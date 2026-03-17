@@ -2,7 +2,11 @@
 
 import { Map, Satellite } from "lucide-react";
 import Image from "next/image";
-import { VIEWBOX_HEIGHT, VIEWBOX_WIDTH, ACCENT } from "@/lib/collective-os/constants";
+import {
+  VIEWBOX_HEIGHT,
+  VIEWBOX_WIDTH,
+  ACCENT,
+} from "@/lib/collective-os/constants";
 import type { MapMode, Person } from "@/lib/collective-os/types";
 import PersonDot from "./PersonDot";
 
@@ -11,6 +15,7 @@ type MapPanelProps = {
   setMapMode: React.Dispatch<React.SetStateAction<MapMode>>;
   mapSrc: string;
   people: Person[];
+  showSentiment: boolean;
 };
 
 export default function MapPanel({
@@ -18,6 +23,7 @@ export default function MapPanel({
   setMapMode,
   mapSrc,
   people,
+  showSentiment,
 }: MapPanelProps) {
   return (
     <section className="relative h-full max-w-199 overflow-hidden rounded-4xl border border-black/10 bg-white">
@@ -75,7 +81,11 @@ export default function MapPanel({
             style={{ aspectRatio: `${VIEWBOX_WIDTH} / ${VIEWBOX_HEIGHT}` }}
           >
             {people.map((person) => (
-              <PersonDot key={person.id} person={person} />
+              <PersonDot
+                key={person.id}
+                person={person}
+                showSentiment={showSentiment}
+              />
             ))}
           </div>
         </div>

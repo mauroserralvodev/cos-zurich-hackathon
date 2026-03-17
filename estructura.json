@@ -1,0 +1,280 @@
+{
+  "name": "cos",
+  "type": "directory",
+  "contents": [
+    {
+      "name": ".DS_Store",
+      "type": "file"
+    },
+    {
+      "name": ".env.local",
+      "type": "file"
+    },
+    {
+      "name": ".gitignore",
+      "type": "file"
+    },
+    {
+      "name": "README.md",
+      "type": "file"
+    },
+    {
+      "name": "app",
+      "type": "directory",
+      "contents": [
+        {
+          "name": ".DS_Store",
+          "type": "file"
+        },
+        {
+          "name": "api",
+          "type": "directory",
+          "contents": [
+            {
+              "name": "simulate",
+              "type": "directory",
+              "contents": [
+                {
+                  "name": "route.ts",
+                  "type": "file"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "dash",
+          "type": "directory",
+          "contents": [
+            {
+              "name": "page.tsx",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "favicon.ico",
+          "type": "file"
+        },
+        {
+          "name": "globals.css",
+          "type": "file"
+        },
+        {
+          "name": "layout.tsx",
+          "type": "file"
+        },
+        {
+          "name": "page.tsx",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "components",
+      "type": "directory",
+      "contents": [
+        {
+          "name": "Blocks",
+          "type": "directory",
+          "contents": [
+            {
+              "name": "AgeBlock.tsx",
+              "type": "file"
+            },
+            {
+              "name": "EducationBlock.tsx",
+              "type": "file"
+            },
+            {
+              "name": "IdeologyBlock.tsx",
+              "type": "file"
+            },
+            {
+              "name": "IncomeBlock.tsx",
+              "type": "file"
+            },
+            {
+              "name": "InnovationAdoptionBlock.tsx",
+              "type": "file"
+            },
+            {
+              "name": "InstitutionalTrustBlock.tsx",
+              "type": "file"
+            },
+            {
+              "name": "PriceSensitivityBlock.tsx",
+              "type": "file"
+            },
+            {
+              "name": "UrbanContextBlock.tsx",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "dashboard",
+          "type": "directory",
+          "contents": [
+            {
+              "name": "AddParameterModal.tsx",
+              "type": "file"
+            },
+            {
+              "name": "DashboardSidebar.tsx",
+              "type": "file"
+            },
+            {
+              "name": "MapPanel.tsx",
+              "type": "file"
+            },
+            {
+              "name": "ParameterCard.tsx",
+              "type": "file"
+            },
+            {
+              "name": "PersonDot.tsx",
+              "type": "file"
+            },
+            {
+              "name": "PopulationCard.tsx",
+              "type": "file"
+            },
+            {
+              "name": "PopulationSetupView.tsx",
+              "type": "file"
+            },
+            {
+              "name": "ResultsPanel.tsx",
+              "type": "file"
+            },
+            {
+              "name": "ResultsView.tsx",
+              "type": "file"
+            },
+            {
+              "name": "StimulusForm.tsx",
+              "type": "file"
+            },
+            {
+              "name": "StimulusSimulationView.tsx",
+              "type": "file"
+            }
+          ]
+        },
+        {
+          "name": "ui",
+          "type": "directory",
+          "contents": [
+            {
+              "name": "DistributionEditor.tsx",
+              "type": "file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "eslint.config.mjs",
+      "type": "file"
+    },
+    {
+      "name": "generate-structure.js",
+      "type": "file"
+    },
+    {
+      "name": "lib",
+      "type": "directory",
+      "contents": [
+        {
+          "name": "collective-os",
+          "type": "directory",
+          "contents": [
+            {
+              "name": "constants.ts",
+              "type": "file"
+            },
+            {
+              "name": "distribution.ts",
+              "type": "file"
+            },
+            {
+              "name": "parameter-blocks.ts",
+              "type": "file"
+            },
+            {
+              "name": "person-scoring.ts",
+              "type": "file"
+            },
+            {
+              "name": "simulation-result-schema.ts",
+              "type": "file"
+            },
+            {
+              "name": "simulation.ts",
+              "type": "file"
+            },
+            {
+              "name": "stimulus-fields.ts",
+              "type": "file"
+            },
+            {
+              "name": "types.ts",
+              "type": "file"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "next-env.d.ts",
+      "type": "file"
+    },
+    {
+      "name": "next.config.ts",
+      "type": "file"
+    },
+    {
+      "name": "package-lock.json",
+      "type": "file"
+    },
+    {
+      "name": "package.json",
+      "type": "file"
+    },
+    {
+      "name": "postcss.config.mjs",
+      "type": "file"
+    },
+    {
+      "name": "public",
+      "type": "directory",
+      "contents": [
+        {
+          "name": ".DS_Store",
+          "type": "file"
+        },
+        {
+          "name": "cos-logo.png",
+          "type": "file"
+        },
+        {
+          "name": "map.png",
+          "type": "file"
+        },
+        {
+          "name": "satelite.png",
+          "type": "file"
+        },
+        {
+          "name": "zurich.svg",
+          "type": "file"
+        }
+      ]
+    },
+    {
+      "name": "tsconfig.json",
+      "type": "file"
+    }
+  ]
+}

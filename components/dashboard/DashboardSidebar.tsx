@@ -3,7 +3,6 @@
 import Image from "next/image";
 import { ArrowLeft, Plus } from "lucide-react";
 import { useState } from "react";
-import { DEFAULT_PARAMETER_BLOCKS } from "@/lib/collective-os/parameter-blocks";
 import type {
   DashboardPhase,
   ManualStats,
@@ -33,6 +32,8 @@ type DashboardSidebarProps = {
   stimulusForm: StimulusFormState;
   setStimulusForm: React.Dispatch<React.SetStateAction<StimulusFormState>>;
   simulationResult: SimulationResult;
+  selectedBlocks: ParameterBlockId[];
+  setSelectedBlocks: React.Dispatch<React.SetStateAction<ParameterBlockId[]>>;
 };
 
 export default function DashboardSidebar({
@@ -52,10 +53,10 @@ export default function DashboardSidebar({
   stimulusForm,
   setStimulusForm,
   simulationResult,
+  selectedBlocks,
+  setSelectedBlocks,
 }: DashboardSidebarProps) {
   const [showAddParameterModal, setShowAddParameterModal] = useState(false);
-  const [selectedBlocks, setSelectedBlocks] =
-    useState<ParameterBlockId[]>(DEFAULT_PARAMETER_BLOCKS);
 
   const toggleBlock = (blockId: ParameterBlockId) => {
     setSelectedBlocks((prev) =>
@@ -127,8 +128,13 @@ export default function DashboardSidebar({
           />
         )}
 
-        {phase === "results" && <ResultsView result={simulationResult} />}
-
+        {phase === "results" && (
+          <ResultsView
+            result={simulationResult}
+            stimulusType={stimulusForm.type}
+          />
+        )}
+        
         <div className="shrink-0 pt-4">
           <button
             onClick={onPrimaryAction}
