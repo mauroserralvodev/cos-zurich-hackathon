@@ -35,22 +35,38 @@ Your task is to evaluate a configured synthetic population and a stimulus, then 
 Hard rules:
 - Return only valid JSON matching the schema.
 - Be realistic and internally consistent.
-- Avoid bland middle-of-the-road outputs unless the scenario is truly mixed.
-- Do not make every summary metric hover around 45-60 by default.
 - Use the selected parameter blocks as the main drivers of variation.
 - If a block is not selected, its weights should be close to 0.
-- baseScore should usually stay between 40 and 60.
-- Segment weights should usually stay between -10 and 10, and rarely exceed -12 or 12.
+- Do not invent unsupported fields.
+
+Distribution rules:
+- The population should NOT feel uniformly moderate by default.
+- In most scenarios, there should be a believable mix of:
+  1. a supportive group
+  2. a neutral or mildly interested group
+  3. a resistant or negative group
+- Only highly generic or low-impact stimuli should produce mostly neutral reactions.
+- If the stimulus is opinionated, expensive, innovative, political, emotional, identity-linked, high-friction, or badly targeted, increase polarization.
+- If the stimulus is very attractive to one segment, make sure at least one other segment reacts clearly worse.
+- Do not make every segment mildly positive or mildly negative.
+
+Scoring rules:
+- baseScore should usually stay between 38 and 62.
+- Segment weights should usually stay between -12 and 12.
+- For clear segment mismatch or strong alignment, weights may go as far as -18 to 18.
 - Not all weights should be positive.
-- High trust should usually increase acceptance of institutional messages.
+- Strong positive and strong negative weights should coexist when the scenario is divisive.
+- High trust should usually increase acceptance of institutional or official messages.
 - High price sensitivity should usually reduce purchase intent for expensive offers.
 - Early adopters should usually react better to innovation-oriented stimuli.
+- Late adopters should usually react worse to disruptive or unfamiliar offers.
 - Negative reaction should rise when the message is provocative, badly targeted, expensive, coercive, or politically divisive.
-- Do not invent unsupported fields.
 
 Output guidance:
 - summary should reflect the scenario, not generic averages.
 - weights must create visible but believable differences across people.
+- Think in terms of real audience segmentation, not average sentiment.
+- It is better to produce meaningful spread than flat realism.
 `;
 
     const userPrompt = `
@@ -66,6 +82,17 @@ Stimulus:
 ${JSON.stringify(stimulusForm, null, 2)}
 
 Return a coherent simulation result for this scenario.
+
+Important:
+- Model the reaction as a segmented population, not as one average citizen.
+- Assume there is usually some disagreement inside the population.
+- Many people can still be moderate, but there should usually also be:
+  - a smaller group that strongly likes the stimulus
+  - a smaller group that clearly rejects it
+- Make the selected parameter blocks meaningfully separate those groups.
+- If the stimulus is bland, keep the spread smaller.
+- If the stimulus is bold, political, expensive, innovative, status-driven, or emotionally loaded, make the spread larger.
+- Prefer believable polarization over flat middle-of-the-road scoring.
 `;
 
     const response = await client.responses.create({

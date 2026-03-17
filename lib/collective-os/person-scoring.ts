@@ -6,12 +6,12 @@ function clamp(value: number, min = 0, max = 100) {
 }
 
 function labelFromScore(score: number): "Positive" | "Neutral" | "Negative" {
-  if (score >= 67) return "Positive";
-  if (score >= 40) return "Neutral";
+  if (score >= 60) return "Positive";
+  if (score >= 42) return "Neutral";
   return "Negative";
 }
 
-function normalizeWeight(value: number, limit = 12) {
+function normalizeWeight(value: number, limit = 18) {
   return clamp(value, -limit, limit);
 }
 
@@ -59,19 +59,19 @@ export function applySimulationScoresToPeople(
       activeContributions.push(normalizeWeight(w.ageGroup[person.ageGroup]));
     }
 
-    const safeBaseScore = clamp(w.baseScore, 35, 65);
+    const safeBaseScore = clamp(w.baseScore, 32, 68);
 
     const contributionTotal = activeContributions.reduce(
       (sum, value) => sum + value,
       0
     );
 
-    const normalizedContribution =
+    const scaledContribution =
       activeContributions.length > 0
-        ? (contributionTotal / activeContributions.length) * 1.6
+        ? contributionTotal * 0.78
         : 0;
 
-    const score = clamp(Math.round(safeBaseScore + normalizedContribution));
+    const score = clamp(Math.round(safeBaseScore + scaledContribution));
 
     return {
       ...person,

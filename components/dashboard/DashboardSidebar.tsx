@@ -156,6 +156,32 @@ export default function DashboardSidebar({
           </button>
         </div>
       </section>
+      
+      {isSimulating && (
+        <div className="absolute inset-5 z-200 flex items-center justify-center bg-neutral-50/65 backdrop-blur-xs md:inset-6">
+          <div className="flex flex-col items-center gap-4 text-center">
+            <div className="relative h-20 w-20 overflow-hidden">
+              <Image
+                src="/cos-logo.png"
+                alt="COS logo"
+                fill
+                className="object-contain"
+              />
+            </div>
+
+            <div className="flex items-center gap-3 rounded-full border border-black/10 bg-white/70 px-4 py-2 shadow-sm backdrop-blur-sm">
+              <LoaderCircle className="h-4 w-4 animate-spin text-neutral-700" />
+              <span className="text-sm font-medium text-neutral-800">
+                Running simulation
+              </span>
+            </div>
+
+            <p className="max-w-55 text-xs leading-5 text-neutral-600">
+              Processing the stimulus and calculating group reactions.
+            </p>
+          </div>
+        </div>
+      )}
     </>
   );
 }
