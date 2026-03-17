@@ -68,7 +68,7 @@ export function applySimulationScoresToPeople(
 
     const scaledContribution =
       activeContributions.length > 0
-        ? contributionTotal * 0.78
+        ? contributionTotal * 1
         : 0;
 
     const score = clamp(Math.round(safeBaseScore + scaledContribution));

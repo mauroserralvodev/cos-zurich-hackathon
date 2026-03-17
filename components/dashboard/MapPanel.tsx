@@ -7,7 +7,7 @@ import {
   VIEWBOX_WIDTH,
   ACCENT,
 } from "@/lib/collective-os/constants";
-import type { MapMode, Person } from "@/lib/collective-os/types";
+import type { MapMode, Person, StimulusFormState } from "@/lib/collective-os/types";
 import PersonDot from "./PersonDot";
 
 type MapPanelProps = {
@@ -16,6 +16,8 @@ type MapPanelProps = {
   mapSrc: string;
   people: Person[];
   showSentiment: boolean;
+  form?: StimulusFormState;
+  narrative?: string;
 };
 
 export default function MapPanel({
@@ -24,6 +26,8 @@ export default function MapPanel({
   mapSrc,
   people,
   showSentiment,
+  form,
+  narrative,
 }: MapPanelProps) {
   return (
     <section className="relative h-full max-w-199 overflow-hidden rounded-4xl border border-black/10 bg-white">
@@ -85,6 +89,12 @@ export default function MapPanel({
                 key={person.id}
                 person={person}
                 showSentiment={showSentiment}
+                opinionContext={{
+                  title: form?.title,
+                  description: form?.description,
+                  tone: form?.tone,
+                  narrative,
+                }}
               />
             ))}
           </div>

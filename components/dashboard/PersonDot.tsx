@@ -1,10 +1,17 @@
 "use client";
 
+import { useMemo, useState } from "react";
 import type { Person } from "@/lib/collective-os/types";
 
 type PersonDotProps = {
   person: Person;
   showSentiment?: boolean;
+  opinionContext: {
+    title?: string;
+    description?: string;
+    tone?: string;
+    narrative?: string;
+  };
 };
 
 function getDotColor(person: Person, showSentiment: boolean) {
@@ -23,7 +30,68 @@ function getSentimentTextColor(sentiment: number) {
 export default function PersonDot({
   person,
   showSentiment = false,
+  opinionContext,
 }: PersonDotProps) {
+  const [expanded, setExpanded] = useState(false);
+  const [opinion, setOpinion] = useState<string>("");
+  const [isLoadingOpinion, setIsLoadingOpinion] = useState(false);
+  const [opinionError, setOpinionError] = useState(false);
+
+  const hasOpinion = opinion.trim().length > 0;
+
+  const opinionPayload = useMemo(
+    () => ({
+      person: {
+        name: person.name,
+        age: person.age,
+        ageGroup: person.ageGroup,
+        ideology: person.ideology,
+        income: person.income,
+        education: person.education,
+        areaType: person.areaType,
+        trust: person.trust,
+        adoption: person.adoption,
+        priceSensitivity: person.priceSensitivity,
+        zoneType: person.zoneType,
+        sentiment: person.sentiment,
+        sentimentLabel: person.sentimentLabel,
+      },
+      stimulus: opinionContext,
+    }),
+    [person, opinionContext]
+  );
+
+  const handleViewOpinion = async () => {
+    setExpanded(true);
+
+    if (hasOpinion || isLoadingOpinion) return;
+
+    setOpinionError(false);
+    setIsLoadingOpinion(true);
+
+    try {
+      const res = await fetch("/api/opinion", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(opinionPayload),
+      });
+
+      if (!res.ok) {
+        throw new Error("Failed to generate opinion");
+      }
+
+      const data = await res.json();
+      setOpinion(data.opinion ?? "");
+    } catch (error) {
+      console.error(error);
+      setOpinionError(true);
+    } finally {
+      setIsLoadingOpinion(false);
+    }
+  };
+
   return (
     <div
       className="group absolute hover:z-1000"
@@ -38,7 +106,11 @@ export default function PersonDot({
         style={{ backgroundColor: getDotColor(person, showSentiment) }}
       />
 
-      <div className="absolute left-1/2 top-4 z-999 hidden w-72 -translate-x-1/2 rounded-2xl border border-black/10 bg-white p-3 text-xs text-neutral-700 shadow-xl group-hover:block">
+      <div
+        className={`absolute left-1/2 top-4 z-999 hidden -translate-x-1/2 rounded-2xl border border-black/10 bg-white p-3 text-xs text-neutral-700 shadow-xl group-hover:block ${
+          expanded ? "w-80" : "w-72"
+        }`}
+      >
         <p className="mb-2 text-sm font-semibold text-neutral-900">
           {person.name}
         </p>
@@ -88,10 +160,40 @@ export default function PersonDot({
 
         <button
           type="button"
-          className="h-9 w-full cursor-pointer rounded-xl border border-black/10 bg-neutral-50 px-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100"
+          onClick={handleViewOpinion}
+          disabled={isLoadingOpinion}
+          className="h-9 w-full cursor-pointer rounded-xl border border-black/10 bg-neutral-50 px-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-60"
         >
-          View opinion
+          {isLoadingOpinion
+            ? "Generating opinion..."
+            : hasOpinion
+              ? "Refresh opinion"
+              : "View opinion"}
         </button>
+
+        {expanded && (
+          <div className="mt-3 rounded-2xl border border-black/10 bg-neutral-50/70 p-3">
+            <p className="mb-1 text-[11px] font-semibold text-neutral-500">
+              Personal opinion
+            </p>
+
+            {isLoadingOpinion ? (
+              <p className="text-sm leading-6 text-neutral-500">
+                Thinking about this decision...
+              </p>
+            ) : opinionError ? (
+              <p className="text-sm leading-6 text-red-500">
+                Couldn’t generate the opinion right now.
+              </p>
+            ) : hasOpinion ? (
+              <p className="text-sm leading-6 text-neutral-700">{opinion}</p>
+            ) : (
+              <p className="text-sm leading-6 text-neutral-500">
+                Click to generate this person’s reaction.
+              </p>
+            )}
+          </div>
+        )}
       </div>
     </div>
   );
