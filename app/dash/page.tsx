@@ -35,6 +35,7 @@ export default function DashPage() {
     useState<SimulationResult>(DEFAULT_SIMULATION_RESULT);
   const [selectedBlocks, setSelectedBlocks] =
     useState<ParameterBlockId[]>(DEFAULT_PARAMETER_BLOCKS);
+  const [isSimulating, setIsSimulating] = useState(false);
 
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [showTopFade, setShowTopFade] = useState(false);
@@ -70,6 +71,8 @@ export default function DashPage() {
   const showSentiment = phase === "results";
 
   const handlePrimaryAction = async () => {
+    if (isSimulating) return;
+
     if (phase === "setup") {
       setSimulationVersion((prev) => prev + 1);
       setPhase("stimulus");
@@ -77,6 +80,8 @@ export default function DashPage() {
     }
 
     if (phase === "stimulus") {
+      setIsSimulating(true);
+
       try {
         const res = await fetch("/api/simulate", {
           method: "POST",
@@ -101,10 +106,12 @@ export default function DashPage() {
         setSimulationResult(result.summary);
         setPeople((prev) =>
           applySimulationScoresToPeople(prev, result, selectedBlocks)
-        )
+        );
         setPhase("results");
       } catch (error) {
         console.error(error);
+      } finally {
+        setIsSimulating(false);
       }
 
       return;
@@ -148,6 +155,7 @@ export default function DashPage() {
           simulationResult={simulationResult}
           selectedBlocks={selectedBlocks}
           setSelectedBlocks={setSelectedBlocks}
+          isSimulating={isSimulating}
         />
 
         <MapPanel

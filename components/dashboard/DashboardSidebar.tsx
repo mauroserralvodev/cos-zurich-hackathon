@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowLeft, Plus } from "lucide-react";
+import { ArrowLeft, LoaderCircle, Plus } from "lucide-react";
 import { useState } from "react";
 import type {
   DashboardPhase,
@@ -34,6 +34,7 @@ type DashboardSidebarProps = {
   simulationResult: SimulationResult;
   selectedBlocks: ParameterBlockId[];
   setSelectedBlocks: React.Dispatch<React.SetStateAction<ParameterBlockId[]>>;
+  isSimulating: boolean;
 };
 
 export default function DashboardSidebar({
@@ -55,6 +56,7 @@ export default function DashboardSidebar({
   simulationResult,
   selectedBlocks,
   setSelectedBlocks,
+  isSimulating,
 }: DashboardSidebarProps) {
   const [showAddParameterModal, setShowAddParameterModal] = useState(false);
 
@@ -90,7 +92,8 @@ export default function DashboardSidebar({
             <button
               type="button"
               onClick={() => setShowAddParameterModal(true)}
-              className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-dashed border-neutral-300 transition hover:border-[#FF5500]"
+              disabled={isSimulating}
+              className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-dashed border-neutral-300 transition hover:border-[#FF5500] disabled:cursor-not-allowed disabled:opacity-50"
               aria-label="Add parameter"
             >
               <Plus className="h-5 w-5 text-neutral-500 transition-transform duration-300 group-hover:rotate-90 group-hover:text-[#FF5500]" />
@@ -99,7 +102,8 @@ export default function DashboardSidebar({
             <button
               type="button"
               onClick={onBack}
-              className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-dashed border-black/10 bg-neutral-50 transition hover:border-black/20 hover:bg-neutral-100"
+              disabled={isSimulating}
+              className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-dashed border-black/10 bg-neutral-50 transition hover:border-black/20 hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
               aria-label="Go back"
             >
               <ArrowLeft className="h-5 w-5 text-neutral-500" />
@@ -138,15 +142,17 @@ export default function DashboardSidebar({
         <div className="shrink-0 pt-4">
           <button
             onClick={onPrimaryAction}
-            disabled={phase === "setup" && selectedBlocks.length === 0}
+            disabled={isSimulating || (phase === "setup" && selectedBlocks.length === 0)}
             className="h-12 w-full cursor-pointer rounded-3xl px-4 text-sm font-medium text-white transition hover:opacity-95 disabled:cursor-not-allowed disabled:opacity-50"
             style={{ backgroundColor: accent }}
           >
-            {phase === "setup"
-              ? "Continue"
-              : phase === "stimulus"
-                ? "Run simulation"
-                : "Run again"}
+            {isSimulating
+              ? "Running simulation..."
+              : phase === "setup"
+                ? "Continue"
+                : phase === "stimulus"
+                  ? "Run simulation"
+                  : "Run again"}
           </button>
         </div>
       </section>
