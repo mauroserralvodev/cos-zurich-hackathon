@@ -31,6 +31,16 @@
           "type": "directory",
           "contents": [
             {
+              "name": "opinion",
+              "type": "directory",
+              "contents": [
+                {
+                  "name": "route.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
               "name": "simulate",
               "type": "directory",
               "contents": [
@@ -252,6 +262,10 @@
       "contents": [
         {
           "name": ".DS_Store",
+          "type": "file"
+        },
+        {
+          "name": "Ryanair.pdf",
           "type": "file"
         },
         {

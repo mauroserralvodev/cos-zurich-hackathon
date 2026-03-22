@@ -23,60 +23,88 @@ export function applySimulationScoresToPeople(
   return people.map((person) => {
     const w = result.weights;
 
-    const activeContributions: number[] = [];
+    const contributions: { label: string; value: number }[] = [];
 
     if (selectedBlocks.includes("ideology")) {
-      activeContributions.push(normalizeWeight(w.ideology[person.ideology]));
+      contributions.push({
+        label: `Ideology: ${person.ideology}`,
+        value: normalizeWeight(w.ideology[person.ideology]),
+      });
     }
 
     if (selectedBlocks.includes("income")) {
-      activeContributions.push(normalizeWeight(w.income[person.income]));
+      contributions.push({
+        label: `Income: ${person.income}`,
+        value: normalizeWeight(w.income[person.income]),
+      });
     }
 
     if (selectedBlocks.includes("education")) {
-      activeContributions.push(normalizeWeight(w.education[person.education]));
+      contributions.push({
+        label: `Education: ${person.education}`,
+        value: normalizeWeight(w.education[person.education]),
+      });
     }
 
     if (selectedBlocks.includes("urbanContext")) {
-      activeContributions.push(normalizeWeight(w.areaType[person.areaType]));
+      contributions.push({
+        label: `Area: ${person.areaType}`,
+        value: normalizeWeight(w.areaType[person.areaType]),
+      });
     }
 
     if (selectedBlocks.includes("institutionalTrust")) {
-      activeContributions.push(normalizeWeight(w.trust[person.trust]));
+      contributions.push({
+        label: `Trust: ${person.trust}`,
+        value: normalizeWeight(w.trust[person.trust]),
+      });
     }
 
     if (selectedBlocks.includes("innovationAdoption")) {
-      activeContributions.push(normalizeWeight(w.adoption[person.adoption]));
+      contributions.push({
+        label: `Adoption: ${person.adoption}`,
+        value: normalizeWeight(w.adoption[person.adoption]),
+      });
     }
 
     if (selectedBlocks.includes("priceSensitivity")) {
-      activeContributions.push(
-        normalizeWeight(w.priceSensitivity[person.priceSensitivity])
-      );
+      contributions.push({
+        label: `Price sensitivity: ${person.priceSensitivity}`,
+        value: normalizeWeight(w.priceSensitivity[person.priceSensitivity]),
+      });
     }
 
     if (selectedBlocks.includes("age")) {
-      activeContributions.push(normalizeWeight(w.ageGroup[person.ageGroup]));
+      contributions.push({
+        label: `Age group: ${person.ageGroup}`,
+        value: normalizeWeight(w.ageGroup[person.ageGroup]),
+      });
     }
 
-    const safeBaseScore = clamp(w.baseScore, 32, 68);
+    const safeBaseScore = clamp(w.baseScore, 35, 65);
 
-    const contributionTotal = activeContributions.reduce(
-      (sum, value) => sum + value,
+    const contributionTotal = contributions.reduce(
+      (sum, item) => sum + item.value,
       0
     );
 
     const scaledContribution =
-      activeContributions.length > 0
-        ? contributionTotal * 1
-        : 0;
+      contributions.length > 0 ? contributionTotal * 0.72 : 0;
 
     const score = clamp(Math.round(safeBaseScore + scaledContribution));
+
+    const strongestContribution =
+      contributions.length > 0
+        ? [...contributions].sort(
+            (a, b) => Math.abs(b.value) - Math.abs(a.value)
+          )[0]
+        : undefined;
 
     return {
       ...person,
       sentiment: score,
       sentimentLabel: labelFromScore(score),
+      topDriver: strongestContribution?.label,
     };
   });
 }

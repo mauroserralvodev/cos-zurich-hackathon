@@ -174,43 +174,6 @@ function pickAreaTypeFromZone(
   );
 }
 
-function computeFakeSentiment(person: {
-  ideology: Person["ideology"];
-  income: Person["income"];
-  education: Person["education"];
-  areaType: Person["areaType"];
-  trust: Person["trust"];
-  adoption: Person["adoption"];
-  priceSensitivity: Person["priceSensitivity"];
-}): { sentiment: number; sentimentLabel: "Positive" | "Neutral" | "Negative" } {
-  let score = 50;
-
-  if (person.trust === "High") score += 16;
-  if (person.trust === "Low") score -= 16;
-
-  if (person.adoption === "Early") score += 12;
-  if (person.adoption === "Late") score -= 10;
-
-  if (person.priceSensitivity === "High") score -= 10;
-  if (person.priceSensitivity === "Low") score += 6;
-
-  if (person.education === "Higher") score += 5;
-  if (person.income === "High") score += 4;
-  if (person.income === "Low") score -= 4;
-
-  if (person.areaType === "Urban") score += 4;
-  if (person.areaType === "Rural") score -= 3;
-
-  score = Math.max(0, Math.min(100, score));
-
-  const sentimentLabel =
-    score >= 67 ? "Positive" : score >= 40 ? "Neutral" : "Negative";
-
-  return {
-    sentiment: score,
-    sentimentLabel,
-  };
-}
 
 export function generatePeopleInZurichShape(
   count: number,
@@ -310,16 +273,6 @@ export function generatePeopleInZurichShape(
 
     const areaType = pickAreaTypeFromZone(zoneType, stats, random);
 
-    const sentimentData = computeFakeSentiment({
-      ideology,
-      income,
-      education,
-      areaType,
-      trust,
-      adoption,
-      priceSensitivity,
-    });
-
     people.push({
       id: people.length + 1,
       name: randomName(people.length),
@@ -333,8 +286,8 @@ export function generatePeopleInZurichShape(
       adoption,
       priceSensitivity,
       zoneType,
-      sentiment: sentimentData.sentiment,
-      sentimentLabel: sentimentData.sentimentLabel,
+      sentiment: 50,
+      sentimentLabel: "Neutral",
       x: (px / VIEWBOX_WIDTH) * 78,
       y: (py / VIEWBOX_HEIGHT) * 80,
     });

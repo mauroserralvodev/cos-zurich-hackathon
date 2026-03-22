@@ -25,6 +25,7 @@ export type Person = {
   zoneType: "Zurich Core" | "Urban Belt" | "Rural";
   x: number;
   y: number;
+  topDriver?: string;
 };
 
 export type ManualStats = {
@@ -112,3 +113,34 @@ export type ParameterBlockId =
   | "institutionalTrust"
   | "innovationAdoption"
   | "priceSensitivity";
+
+export type SentimentDistribution = {
+  positive: number;
+  neutral: number;
+  negative: number;
+};
+
+export type SegmentSummary = {
+  label: string;
+  count: number;
+  share: number;
+  averageSentiment: number;
+  positiveRate: number;
+  negativeRate: number;
+};
+
+export type DriverSummary = {
+  label: string;
+  spread: number;
+  strongestPositive: string;
+  strongestNegative: string;
+};
+
+export type SimulationAnalysis = {
+  sentimentDistribution: SentimentDistribution;
+  polarization: number;
+  topSupportiveSegments: SegmentSummary[];
+  topResistantSegments: SegmentSummary[];
+  zoneBreakdown: SegmentSummary[];
+  leadingDrivers: DriverSummary[];
+};

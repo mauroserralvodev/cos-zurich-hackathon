@@ -18,9 +18,11 @@ import type {
   MapMode,
   ParameterBlockId,
   Person,
+  SimulationAnalysis,
   SimulationResult,
   StimulusFormState,
 } from "@/lib/collective-os/types";
+import { analyzeSimulation } from "@/lib/collective-os/segment-analysis";
 
 export default function DashPage() {
   const [phase, setPhase] = useState<DashboardPhase>("setup");
@@ -40,6 +42,13 @@ export default function DashPage() {
   const scrollRef = useRef<HTMLDivElement | null>(null);
   const [showTopFade, setShowTopFade] = useState(false);
   const [showBottomFade, setShowBottomFade] = useState(true);
+
+  const [simulationAnalysis, setSimulationAnalysis] =
+    useState<SimulationAnalysis | null>(null);
+  const [simulationNarrative, setSimulationNarrative] = useState<{
+    headline: string;
+    explanation: string;
+  } | null>(null);
 
   useEffect(() => {
     const generated = generatePeopleInZurichShape(
@@ -103,10 +112,16 @@ export default function DashPage() {
         const result = await res.json();
         console.log("SIMULATION RESULT:", result);
 
-        setSimulationResult(result.summary);
-        setPeople((prev) =>
-          applySimulationScoresToPeople(prev, result, selectedBlocks)
+        const scoredPeople = applySimulationScoresToPeople(
+          people,
+          result,
+          selectedBlocks
         );
+
+        setSimulationResult(result.summary);
+        setSimulationNarrative(result.narrative ?? null);
+        setPeople(scoredPeople);
+        setSimulationAnalysis(analyzeSimulation(scoredPeople, selectedBlocks));
         setPhase("results");
       } catch (error) {
         console.error(error);
@@ -131,6 +146,12 @@ export default function DashPage() {
     if (phase === "stimulus") {
       setPhase("setup");
     }
+
+    // if (phase === "stimulus") {
+    //   setSimulationAnalysis(null);
+    //   setSimulationNarrative(null);
+    //   setPhase("setup");
+    // }
   };
 
   return (
@@ -164,6 +185,9 @@ export default function DashPage() {
           mapSrc={mapSrc}
           people={people}
           showSentiment={showSentiment}
+          form={stimulusForm}
+          narrative={simulationNarrative?.explanation}
+          analysis={simulationAnalysis ?? undefined}
         />
       </div>
     </main>

@@ -156,6 +156,11 @@ export default function PersonDot({
           <p>
             <span className="text-neutral-500">Score:</span> {person.sentiment}%
           </p>
+          {person.topDriver && (
+            <p className="col-span-2">
+              <span className="text-neutral-500">Main driver:</span> {person.topDriver}
+            </p>
+          )}
         </div>
 
         <button
@@ -165,16 +170,16 @@ export default function PersonDot({
           className="h-9 w-full cursor-pointer rounded-xl border border-black/10 bg-neutral-50 px-3 text-sm font-medium text-neutral-900 transition hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-60"
         >
           {isLoadingOpinion
-            ? "Generating opinion..."
+            ? "Generating qualitative view..."
             : hasOpinion
-              ? "Refresh opinion"
-              : "View opinion"}
+              ? "Refresh qualitative view"
+              : "Open qualitative drill-down"}
         </button>
 
         {expanded && (
           <div className="mt-3 rounded-2xl border border-black/10 bg-neutral-50/70 p-3">
             <p className="mb-1 text-[11px] font-semibold text-neutral-500">
-              Personal opinion
+              Qualitative drill-down
             </p>
 
             {isLoadingOpinion ? (
@@ -189,7 +194,7 @@ export default function PersonDot({
               <p className="text-sm leading-6 text-neutral-700">{opinion}</p>
             ) : (
               <p className="text-sm leading-6 text-neutral-500">
-                Click to generate this person’s reaction.
+                Generate a qualitative reaction for this synthetic citizen.
               </p>
             )}
           </div>

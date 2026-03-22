@@ -61,6 +61,9 @@ Scoring rules:
 - Early adopters should usually react better to innovation-oriented stimuli.
 - Late adopters should usually react worse to disruptive or unfamiliar offers.
 - Negative reaction should rise when the message is provocative, badly targeted, expensive, coercive, or politically divisive.
+- For each selected block, try to create at least one relatively favorable category and one relatively unfavorable category when the scenario is meaningful enough.
+- Avoid returning mostly near-zero weights across all categories unless the stimulus is genuinely weak or generic.
+- Segment differences should be interpretable by a human reviewer.
 
 Output guidance:
 - summary should reflect the scenario, not generic averages.
