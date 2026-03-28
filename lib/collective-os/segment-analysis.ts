@@ -70,7 +70,7 @@ function groupBy<T extends string>(
     },
     {} as Record<T, Person[]>
   );
-}
+} 
 
 function summariesFromGroup<T extends string>(
   people: Person[],

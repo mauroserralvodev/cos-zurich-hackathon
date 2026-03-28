@@ -47,7 +47,6 @@ export default function DashboardSidebar({
   showTopFade,
   showBottomFade,
   updateScrollFades,
-  hasStarted,
   onPrimaryAction,
   onBack,
   accent,
@@ -129,6 +128,10 @@ export default function DashboardSidebar({
           <StimulusSimulationView
             form={stimulusForm}
             setForm={setStimulusForm}
+            scrollRef={scrollRef}
+            showTopFade={showTopFade}
+            showBottomFade={showBottomFade}
+            updateScrollFades={updateScrollFades}
           />
         )}
 
@@ -158,9 +161,9 @@ export default function DashboardSidebar({
       </section>
       
       {isSimulating && (
-        <div className="absolute inset-5 z-200 flex items-center justify-center bg-neutral-50/65 backdrop-blur-xs md:inset-6">
+        <div className="absolute inset-1 z-200 flex items-center justify-center bg-neutral-50/65 backdrop-blur-md md:inset-1">
           <div className="flex flex-col items-center gap-4 text-center">
-            <div className="relative h-20 w-20 overflow-hidden">
+            <div className="relative h-24 w-24 overflow-hidden">
               <Image
                 src="/cos-logo.png"
                 alt="COS logo"
@@ -169,9 +172,9 @@ export default function DashboardSidebar({
               />
             </div>
 
-            <div className="flex items-center gap-3 rounded-full border border-black/10 bg-white/70 px-4 py-2 shadow-sm backdrop-blur-sm">
+            <div className="flex items-center gap-3 rounded-full ">
               <LoaderCircle className="h-4 w-4 animate-spin text-neutral-700" />
-              <span className="text-sm font-medium text-neutral-800">
+              <span className="text-md text-neutral-800">
                 Running simulation
               </span>
             </div>
