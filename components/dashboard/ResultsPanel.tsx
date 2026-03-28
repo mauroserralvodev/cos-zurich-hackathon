@@ -240,7 +240,7 @@ function SemiGauge({
       <div className="my-2 flex items-start justify-between gap-3">
         <div>
           <p className="text-sm font-medium text-neutral-900">{label}</p>
-          <p className="mt-1 text-xs leading-5 text-neutral-500">{description}</p>
+          <p className="mt-1 text-xs leading-5 text-neutral-500 h-10">{description}</p>
         </div>
       </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import Image from "next/image";
-import { ArrowLeft, LoaderCircle, Plus } from "lucide-react";
+import { ArrowLeft, BookOpen, LoaderCircle, Plus } from "lucide-react";
 import { useState } from "react";
 import type {
   DashboardPhase,
@@ -14,6 +14,7 @@ import AddParameterModal from "./AddParameterModal";
 import PopulationSetupView from "./PopulationSetupView";
 import ResultsView from "./ResultsView";
 import StimulusSimulationView from "./StimulusSimulationView";
+import StimulusTemplateModal from "../ui/StimulusTemplateModal";
 
 type DashboardSidebarProps = {
   phase: DashboardPhase;
@@ -58,6 +59,7 @@ export default function DashboardSidebar({
   isSimulating,
 }: DashboardSidebarProps) {
   const [showAddParameterModal, setShowAddParameterModal] = useState(false);
+  const [showStimulusTemplateModal, setShowStimulusTemplateModal] = useState(false);
 
   const toggleBlock = (blockId: ParameterBlockId) => {
     setSelectedBlocks((prev) =>
@@ -67,6 +69,11 @@ export default function DashboardSidebar({
     );
   };
 
+  const applyStimulusTemplate = (template: StimulusFormState) => {
+    setStimulusForm(template);
+    setShowStimulusTemplateModal(false);
+  };
+
   return (
     <>
       <AddParameterModal
@@ -74,6 +81,12 @@ export default function DashboardSidebar({
         selectedBlocks={selectedBlocks}
         onToggleBlock={toggleBlock}
         onClose={() => setShowAddParameterModal(false)}
+      />
+
+      <StimulusTemplateModal
+        open={showStimulusTemplateModal}
+        onClose={() => setShowStimulusTemplateModal(false)}
+        onApplyTemplate={applyStimulusTemplate}
       />
 
       <section className="relative flex h-full min-h-0 flex-col p-5 md:p-6">
@@ -87,27 +100,43 @@ export default function DashboardSidebar({
             />
           </div>
 
-          {phase === "setup" ? (
-            <button
-              type="button"
-              onClick={() => setShowAddParameterModal(true)}
-              disabled={isSimulating}
-              className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-dashed border-neutral-300 transition hover:border-[#FF5500] disabled:cursor-not-allowed disabled:opacity-50"
-              aria-label="Add parameter"
-            >
-              <Plus className="h-5 w-5 text-neutral-500 transition-transform duration-300 group-hover:rotate-90 group-hover:text-[#FF5500]" />
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={onBack}
-              disabled={isSimulating}
-              className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-dashed border-black/10 bg-neutral-50 transition hover:border-black/20 hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
-              aria-label="Go back"
-            >
-              <ArrowLeft className="h-5 w-5 text-neutral-500" />
-            </button>
-          )}
+          <div className="flex items-center gap-2">
+            {phase === "setup" && (
+              <button
+                type="button"
+                onClick={() => setShowAddParameterModal(true)}
+                disabled={isSimulating}
+                className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-dashed border-neutral-300 transition hover:border-[#FF5500] disabled:cursor-not-allowed disabled:opacity-50"
+                aria-label="Add parameter"
+              >
+                <Plus className="h-5 w-5 text-neutral-500 transition-transform duration-300 group-hover:rotate-90 group-hover:text-[#FF5500]" />
+              </button>
+            )}
+
+            {phase !== "setup" && (
+              <button
+                type="button"
+                onClick={onBack}
+                disabled={isSimulating}
+                className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-dashed border-black/10 bg-neutral-50 transition hover:border-black/20 hover:bg-neutral-100 disabled:cursor-not-allowed disabled:opacity-50"
+                aria-label="Go back"
+              >
+                <ArrowLeft className="h-5 w-5 text-neutral-500" />
+              </button>
+            )}
+
+            {phase === "stimulus" && (
+              <button
+                type="button"
+                onClick={() => setShowStimulusTemplateModal(true)}
+                disabled={isSimulating}
+                className="group flex h-11 w-11 cursor-pointer items-center justify-center rounded-full border border-dashed bg-neutral-50 transition border-[#FF5500]/40 hover:bg-[#FF5500]/10 disabled:cursor-not-allowed disabled:opacity-50"
+                aria-label="Open stimulus templates"
+              >
+                <BookOpen className="h-5 w-5 transition text-[#FF5500]" />
+              </button>
+            )}
+          </div>
         </div>
 
         {phase === "setup" && (
