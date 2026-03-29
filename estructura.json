@@ -179,6 +179,10 @@
             {
               "name": "DistributionEditor.tsx",
               "type": "file"
+            },
+            {
+              "name": "StimulusTemplateModal.tsx",
+              "type": "file"
             }
           ]
         }
@@ -214,6 +218,10 @@
             },
             {
               "name": "person-scoring.ts",
+              "type": "file"
+            },
+            {
+              "name": "segment-analysis.ts",
               "type": "file"
             },
             {
@@ -262,10 +270,6 @@
       "contents": [
         {
           "name": ".DS_Store",
-          "type": "file"
-        },
-        {
-          "name": "Ryanair.pdf",
           "type": "file"
         },
         {

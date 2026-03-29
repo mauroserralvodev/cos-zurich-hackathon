@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useRef, useState } from "react";
+import { IBM_Plex_Mono } from "next/font/google";
 import DashboardSidebar from "@/components/dashboard/DashboardSidebar";
 import MapPanel from "@/components/dashboard/MapPanel";
 import {
@@ -23,6 +24,12 @@ import type {
   StimulusFormState,
 } from "@/lib/collective-os/types";
 import { analyzeSimulation } from "@/lib/collective-os/segment-analysis";
+import Image from "next/image";
+
+const ibmPlexMono = IBM_Plex_Mono({
+  subsets: ["latin"],
+  weight: ["400", "500", "600"],
+});
 
 export default function DashPage() {
   const [phase, setPhase] = useState<DashboardPhase>("setup");
@@ -49,6 +56,21 @@ export default function DashPage() {
     headline: string;
     explanation: string;
   } | null>(null);
+
+  const [isMobile, setIsMobile] = useState(false);
+  const [hasMounted, setHasMounted] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+    };
+
+    checkMobile();
+    setHasMounted(true);
+
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
+  }, []);
 
   useEffect(() => {
     const generated = generatePeopleInZurichShape(
@@ -146,13 +168,36 @@ export default function DashPage() {
     if (phase === "stimulus") {
       setPhase("setup");
     }
-
-    // if (phase === "stimulus") {
-    //   setSimulationAnalysis(null);
-    //   setSimulationNarrative(null);
-    //   setPhase("setup");
-    // }
   };
+
+  if (!hasMounted) return null;
+
+  if (isMobile) {
+    return (
+      <main
+        className={`flex min-h-screen items-center justify-center bg-white px-6 ${ibmPlexMono.className}`}
+      >
+        <div className="max-w-md text-center">
+          <div className="flex items-center justify-center py-14">
+            <Image
+              src="/cos-logo.png"
+              alt="COS logo"
+              width={164}
+              height={124}
+              className="w-32"
+            />
+          </div>
+          <h1 className="text-md uppercase text-neutral-900">
+            Available on desktop only
+          </h1>
+          <p className="mt-3 text-xs text-neutral-600">
+            This demo is currently not available on mobile. To access it, open
+            the platform from a desktop computer.
+          </p>
+        </div>
+      </main>
+    );
+  }
 
   return (
     <main className="h-screen overflow-hidden bg-neutral-50 p-4 md:p-6">
