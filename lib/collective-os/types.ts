@@ -144,3 +144,9 @@ export type SimulationAnalysis = {
   zoneBreakdown: SegmentSummary[];
   leadingDrivers: DriverSummary[];
 };
+
+export type SimulationTraceEntry = {
+  level: "info" | "success" | "warning";
+  message: string;
+  highlight?: string[];
+};

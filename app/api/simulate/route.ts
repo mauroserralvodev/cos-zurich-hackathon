@@ -6,6 +6,307 @@ const client = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
 });
 
+type TraceEntry = {
+  level: "info" | "success" | "warning";
+  message: string;
+  highlight?: string[];
+};
+
+const BLOCK_TO_WEIGHT_KEY = {
+  age: "ageGroup",
+  income: "income",
+  education: "education",
+  urbanContext: "areaType",
+  ideology: "ideology",
+  institutionalTrust: "trust",
+  innovationAdoption: "adoption",
+  priceSensitivity: "priceSensitivity",
+} as const;
+
+const BLOCK_LABELS = {
+  age: "age",
+  income: "income",
+  education: "education",
+  urbanContext: "urban context",
+  ideology: "ideology",
+  institutionalTrust: "institutional trust",
+  innovationAdoption: "innovation adoption",
+  priceSensitivity: "price sensitivity",
+} as const;
+
+function formatSigned(value: number) {
+  return `${value > 0 ? "+" : ""}${value}`;
+}
+
+function getStrongestSegmentSignal(
+  weights: Record<string, unknown>,
+  selectedBlocks: string[]
+) {
+  let strongestPositive:
+    | { block: string; category: string; value: number }
+    | null = null;
+
+  let strongestNegative:
+    | { block: string; category: string; value: number }
+    | null = null;
+
+  for (const blockId of selectedBlocks) {
+    const weightKey =
+      BLOCK_TO_WEIGHT_KEY[blockId as keyof typeof BLOCK_TO_WEIGHT_KEY];
+
+    if (!weightKey) continue;
+
+    const group = weights[weightKey];
+
+    if (!group || typeof group !== "object") continue;
+
+    for (const [category, rawValue] of Object.entries(
+      group as Record<string, number>
+    )) {
+      const value = Number(rawValue);
+
+      if (
+        strongestPositive === null ||
+        value > strongestPositive.value
+      ) {
+        strongestPositive = {
+          block: BLOCK_LABELS[blockId as keyof typeof BLOCK_LABELS] ?? blockId,
+          category,
+          value,
+        };
+      }
+
+      if (
+        strongestNegative === null ||
+        value < strongestNegative.value
+      ) {
+        strongestNegative = {
+          block: BLOCK_LABELS[blockId as keyof typeof BLOCK_LABELS] ?? blockId,
+          category,
+          value,
+        };
+      }
+    }
+  }
+
+  return { strongestPositive, strongestNegative };
+}
+
+function buildSimulationTrace(
+  stimulusForm: Record<string, unknown>,
+  selectedBlocks: string[],
+  validated: {
+    summary: {
+      publicAcceptance: number;
+      purchaseIntent: number;
+      trustImpact: number;
+      virality: number;
+      negativeReaction: number;
+    };
+    narrative: {
+      headline: string;
+      explanation: string;
+    };
+    weights: Record<string, unknown> & {
+      baseScore: number;
+    };
+  }
+): TraceEntry[] {
+  const activeDrivers = selectedBlocks
+    .map((blockId) => BLOCK_LABELS[blockId as keyof typeof BLOCK_LABELS])
+    .filter(Boolean);
+
+  const { strongestPositive, strongestNegative } = getStrongestSegmentSignal(
+    validated.weights,
+    selectedBlocks
+  );
+
+  const type = String(stimulusForm.type);
+  const tone = String(stimulusForm.tone);
+  const channel = String(stimulusForm.channel);
+  const title = String(stimulusForm.title ?? "");
+
+  const summary = validated.summary;
+
+  const trace: TraceEntry[] = [
+    {
+      level: "info",
+      message: `simulation request received for stimulus "${title}"`,
+      highlight: [title],
+    },
+    {
+      level: "info",
+      message: `stimulus classified as ${type}`,
+      highlight: [type],
+    },
+    {
+      level: "info",
+      message: `communication tone parsed as ${tone}`,
+      highlight: [tone],
+    },
+    {
+      level: "info",
+      message: `primary delivery channel parsed as ${channel}`,
+      highlight: [channel],
+    },
+    {
+      level: "info",
+      message: `active simulation drivers: ${
+        activeDrivers.length > 0 ? activeDrivers.join(", ") : "none"
+      }`,
+      highlight: activeDrivers,
+    },
+    {
+      level: "info",
+      message: `baseline reaction initialized at ${validated.weights.baseScore}`,
+      highlight: [String(validated.weights.baseScore)],
+    },
+  ];
+
+  if (summary.publicAcceptance >= 65) {
+    trace.push({
+      level: "success",
+      message: `acceptance profile resolved as favorable (${summary.publicAcceptance})`,
+      highlight: [String(summary.publicAcceptance)],
+    });
+  } else if (summary.publicAcceptance <= 40) {
+    trace.push({
+      level: "warning",
+      message: `acceptance profile resolved as fragile (${summary.publicAcceptance})`,
+      highlight: [String(summary.publicAcceptance)],
+    });
+  } else {
+    trace.push({
+      level: "info",
+      message: `acceptance profile resolved as mixed (${summary.publicAcceptance})`,
+      highlight: [String(summary.publicAcceptance)],
+    });
+  }
+
+  if (summary.purchaseIntent >= 65) {
+    trace.push({
+      level: "success",
+      message: `conversion pressure is strong (${summary.purchaseIntent})`,
+      highlight: [String(summary.purchaseIntent)],
+    });
+  } else if (summary.purchaseIntent <= 40) {
+    trace.push({
+      level: "warning",
+      message: `conversion pressure remains limited (${summary.purchaseIntent})`,
+      highlight: [String(summary.purchaseIntent)],
+    });
+  } else {
+    trace.push({
+      level: "info",
+      message: `conversion pressure remains moderate (${summary.purchaseIntent})`,
+      highlight: [String(summary.purchaseIntent)],
+    });
+  }
+
+  if (summary.trustImpact >= 65) {
+    trace.push({
+      level: "success",
+      message: `trust impact trends positive (${summary.trustImpact})`,
+      highlight: [String(summary.trustImpact)],
+    });
+  } else if (summary.trustImpact <= 40) {
+    trace.push({
+      level: "warning",
+      message: `trust impact trends negative (${summary.trustImpact})`,
+      highlight: [String(summary.trustImpact)],
+    });
+  } else {
+    trace.push({
+      level: "info",
+      message: `trust impact remains contained (${summary.trustImpact})`,
+      highlight: [String(summary.trustImpact)],
+    });
+  }
+
+  if (summary.virality >= 65) {
+    trace.push({
+      level: "success",
+      message: `message spread potential is elevated (${summary.virality})`,
+      highlight: [String(summary.virality)],
+    });
+  } else if (summary.virality <= 40) {
+    trace.push({
+      level: "warning",
+      message: `message spread potential is constrained (${summary.virality})`,
+      highlight: [String(summary.virality)],
+    });
+  } else {
+    trace.push({
+      level: "info",
+      message: `message spread potential is moderate (${summary.virality})`,
+      highlight: [String(summary.virality)],
+    });
+  }
+
+  if (summary.negativeReaction >= 55) {
+    trace.push({
+      level: "warning",
+      message: `backlash risk elevated (${summary.negativeReaction})`,
+      highlight: [String(summary.negativeReaction)],
+    });
+  } else if (summary.negativeReaction <= 25) {
+    trace.push({
+      level: "success",
+      message: `backlash risk contained (${summary.negativeReaction})`,
+      highlight: [String(summary.negativeReaction)],
+    });
+  } else {
+    trace.push({
+      level: "info",
+      message: `backlash risk remains present (${summary.negativeReaction})`,
+      highlight: [String(summary.negativeReaction)],
+    });
+  }
+
+  if (strongestPositive) {
+    trace.push({
+      level: "success",
+      message: `strongest positive segment detected in ${strongestPositive.block}: ${strongestPositive.category} (${formatSigned(
+        strongestPositive.value
+      )})`,
+      highlight: [
+        strongestPositive.block,
+        strongestPositive.category,
+        formatSigned(strongestPositive.value),
+      ],
+    });
+  }
+
+  if (strongestNegative) {
+    trace.push({
+      level: "warning",
+      message: `strongest resistance detected in ${strongestNegative.block}: ${strongestNegative.category} (${formatSigned(
+        strongestNegative.value
+      )})`,
+      highlight: [
+        strongestNegative.block,
+        strongestNegative.category,
+        formatSigned(strongestNegative.value),
+      ],
+    });
+  }
+
+  trace.push(
+    {
+      level: "info",
+      message: `aggregate summary stabilized across selected drivers`,
+      highlight: [],
+    },
+    {
+      level: "success",
+      message: `narrative synthesis completed: ${validated.narrative.headline}`,
+      highlight: [validated.narrative.headline],
+    }
+  );
+
+  return trace;
+}
+
 export async function POST(req: Request) {
   try {
     const body = await req.json();
@@ -260,10 +561,19 @@ Important:
     const parsed = JSON.parse(rawText);
     const validated = simulationApiResultSchema.parse(parsed);
 
+    const simulationTrace = buildSimulationTrace(
+      stimulusForm,
+      selectedBlocks ?? [],
+      validated
+    );
+
     console.log("SIMULATION RAW TEXT:", rawText);
     console.log("SIMULATION VALIDATED:", JSON.stringify(validated, null, 2));
 
-    return NextResponse.json(validated);
+    return NextResponse.json({
+      ...validated,
+      simulationTrace,
+    });
   } catch (error) {
     console.error("Simulation API error:", error);
     return NextResponse.json(

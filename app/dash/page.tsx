@@ -21,6 +21,7 @@ import type {
   Person,
   SimulationAnalysis,
   SimulationResult,
+  SimulationTraceEntry,
   StimulusFormState,
 } from "@/lib/collective-os/types";
 import { analyzeSimulation } from "@/lib/collective-os/segment-analysis";
@@ -56,6 +57,9 @@ export default function DashPage() {
     headline: string;
     explanation: string;
   } | null>(null);
+
+  const [simulationTrace, setSimulationTrace] = useState<SimulationTraceEntry[]>([]);
+  const [hasPlayedTraceAnimation, setHasPlayedTraceAnimation] = useState(false);
 
   const [isMobile, setIsMobile] = useState(false);
   const [hasMounted, setHasMounted] = useState(false);
@@ -113,6 +117,8 @@ export default function DashPage() {
     if (phase === "stimulus") {
       setIsSimulating(true);
 
+      setSimulationTrace([]);
+      setHasPlayedTraceAnimation(false);
       try {
         const res = await fetch("/api/simulate", {
           method: "POST",
@@ -142,6 +148,8 @@ export default function DashPage() {
 
         setSimulationResult(result.summary);
         setSimulationNarrative(result.narrative ?? null);
+        setSimulationTrace(result.simulationTrace ?? []);
+        setHasPlayedTraceAnimation(false);
         setPeople(scoredPeople);
         setSimulationAnalysis(analyzeSimulation(scoredPeople, selectedBlocks));
         setPhase("results");
@@ -233,6 +241,9 @@ export default function DashPage() {
           form={stimulusForm}
           narrative={simulationNarrative?.explanation}
           analysis={simulationAnalysis ?? undefined}
+          simulationTrace={simulationTrace}
+          hasPlayedTraceAnimation={hasPlayedTraceAnimation}
+          setHasPlayedTraceAnimation={setHasPlayedTraceAnimation}
         />
       </div>
     </main>
