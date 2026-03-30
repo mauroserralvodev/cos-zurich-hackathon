@@ -150,3 +150,11 @@ export type SimulationTraceEntry = {
   message: string;
   highlight?: string[];
 };
+
+export type OperationalReview = {
+  status: "stable" | "review" | "escalate" | "error";
+  riskBand: "low" | "medium" | "high" | "unknown";
+  consistencyChecks: string[];
+  recommendedAction: string;
+  reviewNotes: string[];
+};

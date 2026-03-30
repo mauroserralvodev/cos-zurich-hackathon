@@ -6,6 +6,7 @@ import { useState } from "react";
 import type {
   DashboardPhase,
   ManualStats,
+  OperationalReview,
   ParameterBlockId,
   SimulationResult,
   StimulusFormState,
@@ -36,6 +37,7 @@ type DashboardSidebarProps = {
   selectedBlocks: ParameterBlockId[];
   setSelectedBlocks: React.Dispatch<React.SetStateAction<ParameterBlockId[]>>;
   isSimulating: boolean;
+  operationalReview: OperationalReview | null;
 };
 
 export default function DashboardSidebar({
@@ -57,6 +59,7 @@ export default function DashboardSidebar({
   selectedBlocks,
   setSelectedBlocks,
   isSimulating,
+  operationalReview,
 }: DashboardSidebarProps) {
   const [showAddParameterModal, setShowAddParameterModal] = useState(false);
   const [showStimulusTemplateModal, setShowStimulusTemplateModal] = useState(false);
@@ -168,6 +171,11 @@ export default function DashboardSidebar({
           <ResultsView
             result={simulationResult}
             stimulusType={stimulusForm.type}
+            operationalReview={operationalReview}
+            scrollRef={scrollRef}
+            showTopFade={showTopFade}
+            showBottomFade={showBottomFade}
+            updateScrollFades={updateScrollFades}
           />
         )}
         

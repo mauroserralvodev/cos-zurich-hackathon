@@ -17,6 +17,7 @@ import type {
   DashboardPhase,
   ManualStats,
   MapMode,
+  OperationalReview,
   ParameterBlockId,
   Person,
   SimulationAnalysis,
@@ -58,7 +59,11 @@ export default function DashPage() {
     explanation: string;
   } | null>(null);
 
-  const [simulationTrace, setSimulationTrace] = useState<SimulationTraceEntry[]>([]);
+  const [simulationTrace, setSimulationTrace] = useState<SimulationTraceEntry[]>(
+    []
+  );
+  const [operationalReview, setOperationalReview] =
+    useState<OperationalReview | null>(null);
   const [hasPlayedTraceAnimation, setHasPlayedTraceAnimation] = useState(false);
 
   const [isMobile, setIsMobile] = useState(false);
@@ -119,6 +124,8 @@ export default function DashPage() {
 
       setSimulationTrace([]);
       setHasPlayedTraceAnimation(false);
+      setOperationalReview(null);
+
       try {
         const res = await fetch("/api/simulate", {
           method: "POST",
@@ -146,12 +153,56 @@ export default function DashPage() {
           selectedBlocks
         );
 
+        const computedAnalysis = analyzeSimulation(scoredPeople, selectedBlocks);
+
+        let reviewData: OperationalReview | null = null;
+
+        try {
+          const reviewRes = await fetch(
+            "https://cos-213783.api.brinpage.com/api/operational-review",
+            {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                payload: {
+                  stimulusType: stimulusForm.type,
+                  tone: stimulusForm.tone,
+                  channel: stimulusForm.channel,
+                  selectedBlocks,
+                  narrativeHeadline: result.narrative?.headline ?? "",
+                  summary: result.summary,
+                  analysis: {
+                    polarization: computedAnalysis.polarization,
+                    topSupportiveSegments:
+                      computedAnalysis.topSupportiveSegments.map(
+                        (segment) => segment.label
+                      ),
+                    topResistantSegments:
+                      computedAnalysis.topResistantSegments.map(
+                        (segment) => segment.label
+                      ),
+                  },
+                },
+              }),
+            }
+          );
+
+          if (reviewRes.ok) {
+            reviewData = await reviewRes.json();
+          }
+        } catch (reviewError) {
+          console.error("Operational review request failed:", reviewError);
+        }
+
         setSimulationResult(result.summary);
         setSimulationNarrative(result.narrative ?? null);
         setSimulationTrace(result.simulationTrace ?? []);
         setHasPlayedTraceAnimation(false);
         setPeople(scoredPeople);
-        setSimulationAnalysis(analyzeSimulation(scoredPeople, selectedBlocks));
+        setSimulationAnalysis(computedAnalysis);
+        setOperationalReview(reviewData);
         setPhase("results");
       } catch (error) {
         console.error(error);
@@ -183,16 +234,15 @@ export default function DashPage() {
   if (isMobile) {
     return (
       <main
-        className={`flex min-h-screen items-center justify-center bg-white px-6 ${ibmPlexMono.className}`}
+        className={`flex min-h-screen items-center justify-center bg-[#f7f7f4] px-6 ${ibmPlexMono.className}`}
       >
         <div className="max-w-md text-center">
-          <div className="flex items-center justify-center py-14">
+          <div className="relative h-14 mb-10 overflow-hidden w-full">
             <Image
               src="/cos-logo.png"
               alt="COS logo"
-              width={164}
-              height={124}
-              className="w-32"
+              fill
+              className="object-contain"
             />
           </div>
           <h1 className="text-md uppercase text-neutral-900">
@@ -230,6 +280,7 @@ export default function DashPage() {
           selectedBlocks={selectedBlocks}
           setSelectedBlocks={setSelectedBlocks}
           isSimulating={isSimulating}
+          operationalReview={operationalReview}
         />
 
         <MapPanel
