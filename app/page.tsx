@@ -1,5 +1,10 @@
-import { redirect } from "next/navigation";
+import AccessCodeModal from "@/components/ui/AccessCodeModal";
+
 
 export default function HomePage() {
-  redirect("/dash");
+  return (
+    <main className="relative min-h-screen bg-[#f7f7f4]">
+      <AccessCodeModal open />
+    </main>
+  );
 }

@@ -155,7 +155,7 @@ export default function MapPanel({
               onClick={() =>
                 setPanelMode((prev) => (prev === "map" ? "trace" : "map"))
               }
-              className={`flex h-10 w-10 items-center justify-center rounded-3xl border border-black/10 transition ${
+              className={`flex h-10 w-10 items-center justify-center rounded-3xl border border-black/10 transition cursor-pointer ${
                 panelMode === "trace"
                   ? "bg-black text-white"
                   : "bg-white text-neutral-700 hover:text-neutral-900"
