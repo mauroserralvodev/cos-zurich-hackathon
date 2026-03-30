@@ -21,7 +21,7 @@ import type {
   SimulationTraceEntry,
   StimulusFormState,
 } from "@/lib/collective-os/types";
-import PersonDot from "./PersonDot";
+import PersonDot from "./map/PersonDot";
 import { IBM_Plex_Mono } from "next/font/google";
 
 const ibmPlexMono = IBM_Plex_Mono({

@@ -5,7 +5,8 @@ import type {
   SimulationResult,
   StimulusFormState,
 } from "@/lib/collective-os/types";
-import ResultsPanel from "./ResultsPanel";
+import ResultsPanel from "../cards/ResultsPanel";
+
 
 type ResultsViewProps = {
   result: SimulationResult;

@@ -1,7 +1,7 @@
 "use client";
 
 import type { StimulusFormState } from "@/lib/collective-os/types";
-import StimulusForm from "./StimulusForm";
+import StimulusForm from "../controls/StimulusForm";
 
 type StimulusSimulationViewProps = {
   form: StimulusFormState;

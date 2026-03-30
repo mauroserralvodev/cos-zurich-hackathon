@@ -11,11 +11,11 @@ import type {
   SimulationResult,
   StimulusFormState,
 } from "@/lib/collective-os/types";
-import AddParameterModal from "./AddParameterModal";
-import PopulationSetupView from "./PopulationSetupView";
-import ResultsView from "./ResultsView";
-import StimulusSimulationView from "./StimulusSimulationView";
-import StimulusTemplateModal from "../ui/StimulusTemplateModal";
+import AddParameterModal from "./modals/AddParameterModal";
+import PopulationSetupView from "./views/PopulationSetupView";
+import StimulusTemplateModal from "./modals/StimulusTemplateModal";
+import StimulusSimulationView from "./views/StimulusSimulationView";
+import ResultsView from "./views/ResultsView";
 
 type DashboardSidebarProps = {
   phase: DashboardPhase;

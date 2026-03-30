@@ -1,15 +1,15 @@
 "use client";
 
 import type { ManualStats, ParameterBlockId } from "@/lib/collective-os/types";
-import UrbanContextBlock from "../Blocks/UrbanContextBlock";
-import IdeologyBlock from "../Blocks/IdeologyBlock";
-import InstitutionalTrustBlock from "../Blocks/InstitutionalTrustBlock";
-import InnovationAdoptionBlock from "../Blocks/InnovationAdoptionBlock";
-import PriceSensitivityBlock from "../Blocks/PriceSensitivityBlock";
-import PopulationCard from "./PopulationCard";
-import AgeBlock from "../Blocks/AgeBlock";
-import IncomeBlock from "../Blocks/IncomeBlock";
-import EducationBlock from "../Blocks/EducationBlock";
+import UrbanContextBlock from "../../blocks/UrbanContextBlock";
+import IdeologyBlock from "../../blocks/IdeologyBlock";
+import InstitutionalTrustBlock from "../../blocks/InstitutionalTrustBlock";
+import InnovationAdoptionBlock from "../../blocks/InnovationAdoptionBlock";
+import PriceSensitivityBlock from "../../blocks/PriceSensitivityBlock";
+import PopulationCard from "../cards/PopulationCard";
+import AgeBlock from "../../blocks/AgeBlock";
+import IncomeBlock from "../../blocks/IncomeBlock";
+import EducationBlock from "../../blocks/EducationBlock";
 
 type PopulationSetupViewProps = {
   peopleCount: number;

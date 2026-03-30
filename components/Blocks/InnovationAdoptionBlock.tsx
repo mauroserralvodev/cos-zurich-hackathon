@@ -1,7 +1,7 @@
 "use client";
 
 import type { ManualStats } from "@/lib/collective-os/types";
-import DistributionEditor from "../ui/DistributionEditor";
+import DistributionEditor from "../dashboard/controls/DistributionEditor";
 
 type InnovationAdoptionBlockProps = {
   stats: ManualStats;
