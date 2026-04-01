@@ -7,18 +7,21 @@ import { FileText, Image as ImageIcon } from "lucide-react";
 type StimulusFormProps = {
   form: StimulusFormState;
   setForm: React.Dispatch<React.SetStateAction<StimulusFormState>>;
+  onOpenUploadNotice: () => void;
 };
 
-export default function StimulusForm({ form, setForm }: StimulusFormProps) {
+export default function StimulusForm({
+  form,
+  setForm,
+  onOpenUploadNotice,
+}: StimulusFormProps) {
   const fields = STIMULUS_FIELDS_BY_TYPE[form.type];
 
   return (
     <div className="rounded-3xl border border-black/10 bg-white p-6">
       <div className="space-y-4">
         <div>
-          <p className="text-sm text-neutral-900">
-            Stimulus
-          </p>
+          <p className="text-sm text-neutral-900">Stimulus</p>
           <p className="mt-1 text-xs leading-5 text-neutral-400">
             Define the input that the synthetic population will react to.
           </p>
@@ -74,7 +77,11 @@ export default function StimulusForm({ form, setForm }: StimulusFormProps) {
 
                   {isCampaignDescription && (
                     <div className="grid grid-cols-2 gap-3">
-                      <div className="rounded-2xl border border-dashed border-black/10 bg-neutral-50 p-4 hover:cursor-not-allowed">
+                      <button
+                        type="button"
+                        onClick={onOpenUploadNotice}
+                        className="rounded-2xl border border-dashed border-black/10 bg-neutral-50 p-4 text-left transition hover:cursor-pointer hover:border-[#FF5500]/30 hover:bg-white"
+                      >
                         <div className="flex h-24 flex-col items-center justify-center text-center">
                           <ImageIcon size={20} className="mb-2 text-neutral-500" />
                           <p className="text-sm font-medium text-neutral-900">
@@ -84,9 +91,13 @@ export default function StimulusForm({ form, setForm }: StimulusFormProps) {
                             JPG, PNG, WEBP
                           </p>
                         </div>
-                      </div>
+                      </button>
 
-                      <div className="rounded-2xl border border-dashed border-black/10 bg-neutral-50 p-4 hover:cursor-not-allowed">
+                      <button
+                        type="button"
+                        onClick={onOpenUploadNotice}
+                        className="rounded-2xl border border-dashed border-black/10 bg-neutral-50 p-4 text-left transition hover:cursor-pointer hover:border-[#FF5500]/30 hover:bg-white"
+                      >
                         <div className="flex h-24 flex-col items-center justify-center text-center">
                           <FileText size={20} className="mb-2 text-neutral-500" />
                           <p className="text-sm font-medium text-neutral-900">
@@ -96,7 +107,7 @@ export default function StimulusForm({ form, setForm }: StimulusFormProps) {
                             PDF, DOCX, TXT
                           </p>
                         </div>
-                      </div>
+                      </button>
                     </div>
                   )}
                 </div>

@@ -33,6 +33,60 @@ const ibmPlexMono = IBM_Plex_Mono({
   weight: ["400", "500", "600"],
 });
 
+type SimulationApiResult = {
+  summary: SimulationResult;
+  narrative: {
+    headline: string;
+    explanation: string;
+  } | null;
+  simulationTrace?: SimulationTraceEntry[];
+  weights: {
+    baseScore: number;
+    ideology: {
+      Right: number;
+      Left: number;
+      Apolitical: number;
+      Other: number;
+    };
+    income: {
+      Low: number;
+      Medium: number;
+      High: number;
+    };
+    education: {
+      Basic: number;
+      Secondary: number;
+      Higher: number;
+    };
+    areaType: {
+      Urban: number;
+      Suburban: number;
+      Rural: number;
+    };
+    trust: {
+      Low: number;
+      Medium: number;
+      High: number;
+    };
+    adoption: {
+      Early: number;
+      Mainstream: number;
+      Late: number;
+    };
+    priceSensitivity: {
+      Low: number;
+      Medium: number;
+      High: number;
+    };
+    ageGroup: {
+      "18-24": number;
+      "25-39": number;
+      "40-64": number;
+      "65+": number;
+    };
+  };
+};
+
 export default function DashPage() {
   const [phase, setPhase] = useState<DashboardPhase>("setup");
   const [peopleCount, setPeopleCount] = useState(500);
@@ -104,7 +158,7 @@ export default function DashPage() {
 
   useEffect(() => {
     updateScrollFades();
-  }, []);
+  }, [phase]);
 
   const mapSrc = mapMode === "map" ? "/map.png" : "/satelite.png";
   const hasStarted = simulationVersion > 1;
@@ -121,7 +175,6 @@ export default function DashPage() {
 
     if (phase === "stimulus") {
       setIsSimulating(true);
-
       setSimulationTrace([]);
       setHasPlayedTraceAnimation(false);
       setOperationalReview(null);
@@ -144,12 +197,19 @@ export default function DashPage() {
           throw new Error("Simulation request failed");
         }
 
-        const result = await res.json();
-        console.log("SIMULATION RESULT:", result);
+        const result: SimulationApiResult = await res.json();
+
+        const normalizedResult = {
+          ...result,
+          narrative: result.narrative ?? {
+            headline: "",
+            explanation: "",
+          },
+        };
 
         const scoredPeople = applySimulationScoresToPeople(
           people,
-          result,
+          normalizedResult,
           selectedBlocks
         );
 
@@ -157,37 +217,34 @@ export default function DashPage() {
 
         let reviewData: OperationalReview | null = null;
 
+        const reviewPayload = {
+          stimulusType: stimulusForm.type,
+          tone: stimulusForm.tone,
+          channel: stimulusForm.channel,
+          selectedBlocks,
+          narrativeHeadline: result.narrative?.headline ?? "",
+          summary: result.summary,
+          analysis: {
+            polarization: computedAnalysis.polarization,
+            topSupportiveSegments: computedAnalysis.topSupportiveSegments.map(
+              (segment) => segment.label
+            ),
+            topResistantSegments: computedAnalysis.topResistantSegments.map(
+              (segment) => segment.label
+            ),
+          },
+        };
+
         try {
-          const reviewRes = await fetch(
-            "https://cos-213783.api.brinpage.com/api/operational-review",
-            {
-              method: "POST",
-              headers: {
-                "Content-Type": "application/json",
-              },
-              body: JSON.stringify({
-                payload: {
-                  stimulusType: stimulusForm.type,
-                  tone: stimulusForm.tone,
-                  channel: stimulusForm.channel,
-                  selectedBlocks,
-                  narrativeHeadline: result.narrative?.headline ?? "",
-                  summary: result.summary,
-                  analysis: {
-                    polarization: computedAnalysis.polarization,
-                    topSupportiveSegments:
-                      computedAnalysis.topSupportiveSegments.map(
-                        (segment) => segment.label
-                      ),
-                    topResistantSegments:
-                      computedAnalysis.topResistantSegments.map(
-                        (segment) => segment.label
-                      ),
-                  },
-                },
-              }),
-            }
-          );
+          const reviewRes = await fetch("/api/operational-review", {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+            },
+            body: JSON.stringify({
+              payload: reviewPayload,
+            }),
+          });
 
           if (reviewRes.ok) {
             reviewData = await reviewRes.json();
@@ -237,7 +294,7 @@ export default function DashPage() {
         className={`flex min-h-screen items-center justify-center bg-[#f7f7f4] px-6 ${ibmPlexMono.className}`}
       >
         <div className="max-w-md text-center">
-          <div className="relative h-14 mb-10 overflow-hidden w-full">
+          <div className="relative mb-10 h-14 w-full overflow-hidden">
             <Image
               src="/cos-logo.png"
               alt="COS logo"

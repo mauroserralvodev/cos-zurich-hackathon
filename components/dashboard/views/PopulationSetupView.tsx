@@ -1,5 +1,6 @@
 "use client";
 
+import { useState } from "react";
 import type { ManualStats, ParameterBlockId } from "@/lib/collective-os/types";
 import UrbanContextBlock from "../../blocks/UrbanContextBlock";
 import IdeologyBlock from "../../blocks/IdeologyBlock";
@@ -10,6 +11,8 @@ import PopulationCard from "../cards/PopulationCard";
 import AgeBlock from "../../blocks/AgeBlock";
 import IncomeBlock from "../../blocks/IncomeBlock";
 import EducationBlock from "../../blocks/EducationBlock";
+import UploadFilesNoticeModal from "../modals/UploadFilesNoticeModal";
+import { FileText } from "lucide-react";
 
 type PopulationSetupViewProps = {
   peopleCount: number;
@@ -34,6 +37,8 @@ export default function PopulationSetupView({
   showBottomFade,
   updateScrollFades,
 }: PopulationSetupViewProps) {
+  const [isUploadNoticeOpen, setIsUploadNoticeOpen] = useState(false);
+
   const blockMap: Record<ParameterBlockId, React.ReactNode> = {
     age: <AgeBlock stats={stats} setStats={setStats} />,
     income: <IncomeBlock stats={stats} setStats={setStats} />,
@@ -53,6 +58,11 @@ export default function PopulationSetupView({
 
   return (
     <div className="relative min-h-0 flex-1">
+      <UploadFilesNoticeModal
+        open={isUploadNoticeOpen}
+        onClose={() => setIsUploadNoticeOpen(false)}
+      />
+
       {showTopFade && (
         <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-15 bg-linear-to-b from-neutral-50 to-transparent" />
       )}
@@ -71,6 +81,27 @@ export default function PopulationSetupView({
             peopleCount={peopleCount}
             setPeopleCount={setPeopleCount}
           />
+
+          <div className="rounded-3xl border border-dashed border-neutral-300 bg-white p-4">
+            <div className="flex min-h-36 flex-col items-center justify-center gap-2 text-center">
+              <p className="text-md font-medium text-neutral-800">
+                Add historical company data
+              </p>
+
+              <p className="max-w-64 text-xs  text-neutral-400">
+                Upload feedback from past campaigns, reports, or internal data so
+                the AI can simulate future reactions with better context.
+              </p>
+
+              <button
+                type="button"
+                onClick={() => setIsUploadNoticeOpen(true)}
+                className="mt-2 flex items-center justify-center gap-3 cursor-pointer rounded-full border border-black/10 px-4 py-2 text-xs font-medium text-neutral-700 transition hover:border-[#FF5500] hover:text-[#FF5500]"
+              >
+                Upload files <FileText size={18} className="text-neutral-500" />
+              </button>
+            </div>
+          </div>
 
           {selectedBlocks.length > 0 ? (
             selectedBlocks.map((blockId) => (

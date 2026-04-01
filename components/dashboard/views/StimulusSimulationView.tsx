@@ -1,7 +1,9 @@
 "use client";
 
+import { useState } from "react";
 import type { StimulusFormState } from "@/lib/collective-os/types";
 import StimulusForm from "../controls/StimulusForm";
+import UploadFilesNoticeModal from "../modals/UploadFilesNoticeModal";
 
 type StimulusSimulationViewProps = {
   form: StimulusFormState;
@@ -20,8 +22,15 @@ export default function StimulusSimulationView({
   showBottomFade,
   updateScrollFades,
 }: StimulusSimulationViewProps) {
+  const [isUploadNoticeOpen, setIsUploadNoticeOpen] = useState(false);
+
   return (
     <div className="relative min-h-0 flex-1">
+      <UploadFilesNoticeModal
+        open={isUploadNoticeOpen}
+        onClose={() => setIsUploadNoticeOpen(false)}
+      />
+
       {showTopFade && (
         <div className="pointer-events-none absolute inset-x-0 top-0 z-20 h-15 bg-linear-to-b from-neutral-50 to-transparent" />
       )}
@@ -36,7 +45,11 @@ export default function StimulusSimulationView({
         className="h-full overflow-y-auto pr-2 no-scrollbar"
       >
         <div className="space-y-3">
-          <StimulusForm form={form} setForm={setForm} />
+          <StimulusForm
+            form={form}
+            setForm={setForm}
+            onOpenUploadNotice={() => setIsUploadNoticeOpen(true)}
+          />
         </div>
       </div>
     </div>
