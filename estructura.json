@@ -31,6 +31,26 @@
           "type": "directory",
           "contents": [
             {
+              "name": "demo-access",
+              "type": "directory",
+              "contents": [
+                {
+                  "name": "route.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
+              "name": "operational-review",
+              "type": "directory",
+              "contents": [
+                {
+                  "name": "route.ts",
+                  "type": "file"
+                }
+              ]
+            },
+            {
               "name": "opinion",
               "type": "directory",
               "contents": [
@@ -85,7 +105,7 @@
       "type": "directory",
       "contents": [
         {
-          "name": "Blocks",
+          "name": "blocks",
           "type": "directory",
           "contents": [
             {
@@ -127,10 +147,6 @@
           "type": "directory",
           "contents": [
             {
-              "name": "AddParameterModal.tsx",
-              "type": "file"
-            },
-            {
               "name": "DashboardSidebar.tsx",
               "type": "file"
             },
@@ -139,36 +155,82 @@
               "type": "file"
             },
             {
-              "name": "ParameterCard.tsx",
-              "type": "file"
+              "name": "cards",
+              "type": "directory",
+              "contents": [
+                {
+                  "name": "ParameterCard.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "PopulationCard.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "ResultsPanel.tsx",
+                  "type": "file"
+                }
+              ]
             },
             {
-              "name": "PersonDot.tsx",
-              "type": "file"
+              "name": "controls",
+              "type": "directory",
+              "contents": [
+                {
+                  "name": "DistributionEditor.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "StimulusForm.tsx",
+                  "type": "file"
+                }
+              ]
             },
             {
-              "name": "PopulationCard.tsx",
-              "type": "file"
+              "name": "map",
+              "type": "directory",
+              "contents": [
+                {
+                  "name": "PersonDot.tsx",
+                  "type": "file"
+                }
+              ]
             },
             {
-              "name": "PopulationSetupView.tsx",
-              "type": "file"
+              "name": "modals",
+              "type": "directory",
+              "contents": [
+                {
+                  "name": "AddParameterModal.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "StimulusTemplateModal.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "UploadFilesNoticeModal2.tsx",
+                  "type": "file"
+                }
+              ]
             },
             {
-              "name": "ResultsPanel.tsx",
-              "type": "file"
-            },
-            {
-              "name": "ResultsView.tsx",
-              "type": "file"
-            },
-            {
-              "name": "StimulusForm.tsx",
-              "type": "file"
-            },
-            {
-              "name": "StimulusSimulationView.tsx",
-              "type": "file"
+              "name": "views",
+              "type": "directory",
+              "contents": [
+                {
+                  "name": "PopulationSetupView.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "ResultsView.tsx",
+                  "type": "file"
+                },
+                {
+                  "name": "StimulusSimulationView.tsx",
+                  "type": "file"
+                }
+              ]
             }
           ]
         },
@@ -177,11 +239,7 @@
           "type": "directory",
           "contents": [
             {
-              "name": "DistributionEditor.tsx",
-              "type": "file"
-            },
-            {
-              "name": "StimulusTemplateModal.tsx",
+              "name": "AccessCodeModal.tsx",
               "type": "file"
             }
           ]
@@ -243,6 +301,10 @@
           ]
         }
       ]
+    },
+    {
+      "name": "middleware.ts",
+      "type": "file"
     },
     {
       "name": "next-env.d.ts",

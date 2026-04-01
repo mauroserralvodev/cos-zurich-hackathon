@@ -2,16 +2,16 @@
 
 import { useState } from "react";
 import type { ManualStats, ParameterBlockId } from "@/lib/collective-os/types";
-import UrbanContextBlock from "../../blocks/UrbanContextBlock";
-import IdeologyBlock from "../../blocks/IdeologyBlock";
-import InstitutionalTrustBlock from "../../blocks/InstitutionalTrustBlock";
-import InnovationAdoptionBlock from "../../blocks/InnovationAdoptionBlock";
-import PriceSensitivityBlock from "../../blocks/PriceSensitivityBlock";
-import PopulationCard from "../cards/PopulationCard";
-import AgeBlock from "../../blocks/AgeBlock";
-import IncomeBlock from "../../blocks/IncomeBlock";
-import EducationBlock from "../../blocks/EducationBlock";
-import UploadFilesNoticeModal from "../modals/UploadFilesNoticeModal2";
+import UrbanContextBlock from "@/components/blocks/UrbanContextBlock";
+import IdeologyBlock from "@/components/blocks/IdeologyBlock";
+import InstitutionalTrustBlock from "@/components/blocks/InstitutionalTrustBlock";
+import InnovationAdoptionBlock from "@/components/blocks/InnovationAdoptionBlock";
+import PriceSensitivityBlock from "@/components/blocks/PriceSensitivityBlock";
+import PopulationCard from "@/components/dashboard/cards/PopulationCard";
+import AgeBlock from "@/components/blocks/AgeBlock";
+import IncomeBlock from "@/components/blocks/IncomeBlock";
+import EducationBlock from "@/components/blocks/EducationBlock";
+import UploadFilesNoticeModal from "@/components/dashboard/modals/UploadFilesNoticeModal2";
 import { FileText } from "lucide-react";
 
 type PopulationSetupViewProps = {
