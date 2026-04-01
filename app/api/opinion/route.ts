@@ -31,11 +31,12 @@ ${JSON.stringify(person, null, 2)}
 Stimulus:
 ${JSON.stringify(stimulus, null, 2)}
 
-Write what this person would say about that decision or stimulus.
+Write what this person would say about that decision or stimulus. 
+Make sure the person's details match their opinion.
 `;
 
     const completion = await openai.chat.completions.create({
-      model: "gpt-4.1-mini",
+      model: "gpt-4.1",
       temperature: 0.9,
       response_format: { type: "json_object" },
       messages: [
