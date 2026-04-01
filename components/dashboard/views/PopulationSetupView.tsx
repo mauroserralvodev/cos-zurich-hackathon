@@ -11,7 +11,7 @@ import PopulationCard from "../cards/PopulationCard";
 import AgeBlock from "../../blocks/AgeBlock";
 import IncomeBlock from "../../blocks/IncomeBlock";
 import EducationBlock from "../../blocks/EducationBlock";
-import UploadFilesNoticeModal from "../modals/UploadFilesNoticeModal";
+import UploadFilesNoticeModal from "../modals/UploadFilesNoticeModal2";
 import { FileText } from "lucide-react";
 
 type PopulationSetupViewProps = {

@@ -3,7 +3,7 @@
 import { useState } from "react";
 import type { StimulusFormState } from "@/lib/collective-os/types";
 import StimulusForm from "../controls/StimulusForm";
-import UploadFilesNoticeModal from "../modals/UploadFilesNoticeModal";
+import UploadFilesNoticeModal from "../modals/UploadFilesNoticeModal2";
 
 type StimulusSimulationViewProps = {
   form: StimulusFormState;

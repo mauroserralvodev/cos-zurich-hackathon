@@ -28,7 +28,8 @@ type OperationalReviewResponse = {
   reviewNotes: string[];
 };
 
-// The ENV are hardcoded also for you to see
+// The environment variables are hardcoded so you can see them, except for the access tokens 
+// To recreate this project, you'll need an account on Palantir and another on Brinpage to get your own keys
 
 const BRINPAGE_REVIEW_URL =
   process.env.BRINPAGE_REVIEW_URL ??
@@ -87,7 +88,7 @@ async function sendOperationalReviewToPalantir(
       headers: {
         "Content-Type": "application/json",
         Authorization: `Bearer ${
-          process.env.PALANTIR_BEARER_TOKEN ?? "PALANTIR_TOKEN_PLACEHOLDER"
+          process.env.PALANTIR_BEARER_TOKEN
         }`,
       },
       body: JSON.stringify({ payload }),
