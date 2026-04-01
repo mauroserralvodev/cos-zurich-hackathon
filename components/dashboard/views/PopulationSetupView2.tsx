@@ -2,15 +2,15 @@
 
 import { useState } from "react";
 import type { ManualStats, ParameterBlockId } from "@/lib/collective-os/types";
-import UrbanContextBlock from "../../blocks/UrbanContextBlock";
-import IdeologyBlock from "../../blocks/IdeologyBlock";
-import InstitutionalTrustBlock from "../../blocks/InstitutionalTrustBlock";
-import InnovationAdoptionBlock from "../../blocks/InnovationAdoptionBlock";
-import PriceSensitivityBlock from "../../blocks/PriceSensitivityBlock";
+import UrbanContextBlock from "../blocks/UrbanContextBlock";
+import IdeologyBlock from "../blocks/IdeologyBlock";
+import InstitutionalTrustBlock from "../blocks/InstitutionalTrustBlock";
+import InnovationAdoptionBlock from "../blocks/InnovationAdoptionBlock";
+import PriceSensitivityBlock from "../blocks/PriceSensitivityBlock";
 import PopulationCard from "../cards/PopulationCard";
-import AgeBlock from "../../blocks/AgeBlock";
-import IncomeBlock from "../../blocks/IncomeBlock";
-import EducationBlock from "../../blocks/EducationBlock";
+import AgeBlock from "../blocks/AgeBlock";
+import IncomeBlock from "../blocks/IncomeBlock";
+import EducationBlock from "../blocks/EducationBlock";
 import UploadFilesNoticeModal from "../modals/UploadFilesNoticeModal2";
 
 import { FileText } from "lucide-react";
