@@ -12,7 +12,7 @@ import type {
   StimulusFormState,
 } from "@/lib/collective-os/types";
 import AddParameterModal from "./modals/AddParameterModal";
-import PopulationSetupView from "./views/PopulationSetupView";
+import PopulationSetupView from "./views/PopulationSetupView2";
 import StimulusTemplateModal from "./modals/StimulusTemplateModal";
 import StimulusSimulationView from "./views/StimulusSimulationView";
 import ResultsView from "./views/ResultsView";
