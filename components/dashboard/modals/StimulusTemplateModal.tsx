@@ -52,12 +52,15 @@ const STIMULUS_TEMPLATES: Array<{
       type: "advertising",
       title: "City movement, reimagined",
       description:
-        "A premium advertising campaign presenting a new electric mobility brand as the ideal choice for ambitious urban professionals who value design, status and sustainability.",
+        "A premium advertising campaign presenting a new electric mobility brand as the ideal choice for ambitious urban professionals who value design, status and sustainability. The campaign frames electric mobility as a symbol of progress, independence and urban sophistication, with visuals centred on design-led city life, quiet performance and low-emission convenience.",
       brandName: "Nova Mobility",
       tone: "Optimistic",
       channel: "Social media",
-      audienceGoal: "Increase awareness among urban professionals",
+      audienceGoal:
+        "Increase awareness and brand preference among urban professionals aged 25 to 40 who are environmentally conscious but also motivated by status, design and convenience.",
       cta: "Discover more",
+      pricePoint:
+        "Premium positioning, starting from 42,900 CHF with flexible monthly financing options",
     }),
   },
   {
@@ -69,12 +72,17 @@ const STIMULUS_TEMPLATES: Array<{
       type: "government",
       title: "New public transport subsidy",
       description:
-        "The regional government announces a public transport subsidy designed to reduce car dependency, improve access to mobility and lower commuting costs for residents.",
-      policyArea: "Mobility",
+        "The regional government announces a new public transport subsidy aimed at reducing car dependency, improving access to mobility and lowering commuting costs for residents. The measure includes discounted monthly travel passes, special support for students and low-income households, and a broader push to reduce congestion and emissions across the region.",
+      policyArea:
+        "Mobility, cost of living relief and emissions reduction through public transport incentives",
       impactScope: "Regional",
       institutionSource: "Canton of Zürich",
       tone: "Neutral",
       channel: "Press",
+      audienceGoal:
+        "Build public support for the measure, increase perceived fairness of the policy and improve confidence in institutional decision-making.",
+      cta:
+        "Check eligibility and apply for the new regional transport subsidy",
     }),
   },
   {
@@ -86,12 +94,18 @@ const STIMULUS_TEMPLATES: Array<{
       type: "political",
       title: "A safer and fairer Zürich",
       description:
-        "A political campaign focused on housing access, public safety and cost of living, presenting a moderate reform agenda aimed at families and younger voters.",
+        "A political campaign focused on housing access, public safety and cost of living, presenting a moderate reform agenda aimed at families, renters and younger voters. The message combines institutional competence with social fairness, arguing that the city needs more affordable housing, cleaner public space, safer neighbourhoods and practical policies that reduce everyday pressure without ideological extremes.",
       candidate: "Civic Alliance",
-      issueFocus: "Housing and affordability",
+      issueFocus:
+        "Housing affordability, neighbourhood safety, public services and cost-of-living pressure",
       slogan: "Forward together",
       tone: "Provocative",
       channel: "TV",
+      audienceGoal:
+        "Increase persuasion among undecided middle-income voters, younger renters and families concerned about affordability, safety and urban pressure.",
+      cta: "Join the campaign and vote for practical change",
+      institutionSource:
+        "Positioned as an institutional but reform-oriented political platform with city-level credibility",
     }),
   },
   {
@@ -103,12 +117,16 @@ const STIMULUS_TEMPLATES: Array<{
       type: "product-launch",
       title: "Pulse One",
       description:
-        "A compact AI-powered consumer device designed to help users manage tasks, capture ideas and simplify their daily routines through natural interaction.",
+        "A compact AI-powered consumer device designed to help users manage tasks, capture ideas and simplify their daily routines through natural interaction. The launch positions Pulse One as an intelligent everyday companion for busy professionals and tech-curious consumers who want productivity support, lightweight automation and frictionless interaction without the complexity of a full workstation setup.",
       brandName: "Pulse Labs",
       pricePoint: "299 CHF",
       cta: "Pre-order now",
       tone: "Optimistic",
       channel: "Social media",
+      audienceGoal:
+        "Drive early interest, pre-orders and strong initial adoption among productivity-focused consumers, tech enthusiasts and young professionals.",
+      issueFocus:
+        "Personal productivity, lightweight AI assistance and daily workflow simplification",
     }),
   },
 ];
