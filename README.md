@@ -1,120 +1,162 @@
-# Collective OS  
+# Collective OS
 
-**GenAI Hackathon Zürich 2026 Submission**
+![Collective OS One Pager](/public/cos-onpager.png)
 
----
+Collective OS is a simulation engine for human behavior.  
+It allows organizations to simulate how populations react to decisions before they happen.
 
-## Overview  
-
-Collective OS is an experimental simulation platform designed to explore how a synthetic population might react to different types of events.
-
-The goal is not to predict the future, but to provide a structured way to test scenarios before they happen.
-
-Users can define a population, introduce a stimulus, and observe how different segments respond through aggregated metrics.
-
-This project was built as a solo submission for the GenAI Hackathon Zürich 2026.
+Instead of relying only on historical data or intuition, Collective OS enables scenario-based simulations using synthetic populations powered by AI.
 
 ---
 
-## Motivation  
+# What is Collective OS
 
-Many high-impact decisions are made under uncertainty, whether in business, policy, or product development.
+Collective OS is a simulation platform that models how synthetic populations respond to different types of events.
 
-Collective OS explores a simple question:
+Users define a population using configurable parameters such as:
 
-What if we could simulate how different groups of people might react before acting in the real world?
+- Age  
+- Income  
+- Ideology  
+- Education  
+- Geography  
+- Behavioral traits  
 
-This project is an early attempt at turning that idea into a usable system.
+Once the population is defined, users introduce a stimulus such as:
 
----
+- Product launches  
+- Political campaigns  
+- Public decisions  
+- Marketing strategies  
 
-## What it does  
-
-The platform allows users to:
-
-- Define a synthetic population  
-  - Size  
-  - Demographic attributes  
-  - Socioeconomic traits  
-  - Behavioral characteristics  
-
-- Introduce a scenario or stimulus  
-  - Advertising campaigns  
-  - Government decisions  
-  - Political messaging  
-  - Product launches  
-
-- Run a simulation and analyze results  
-
-The system generates aggregated outputs such as:
-
-- Adoption rate  
-- Public acceptance  
-- Trust impact  
-- Virality  
-- Purchase intent  
-- Negative reaction  
-
-In this demo, the simulation is focused on Zürich.
+The system then simulates how each individual reacts and aggregates the results into structured insights.
 
 ---
 
-## How it works  
+# Key Features
 
-The application is structured around three main steps:
+### Synthetic Population Simulation
 
-1. Population definition  
-2. Scenario configuration  
-3. Simulation and results  
+Generate populations between 500 and 5000 individuals, each simulated using AI.
 
-The current version uses the OpenAI API as the reasoning engine behind the simulation.
+### Dynamic Scenario Modeling
 
-This is an MVP designed to validate the concept.
+Different stimulus types generate different simulation inputs and outputs.
+
+### Segment-Level Analysis
+
+Automatically group results into meaningful population segments.
+
+### Individual-Level Reasoning
+
+Inspect individuals and understand why they reacted positively, negatively, or neutrally.
+
+### Simulation Trace
+
+Track how the system generated the final results.
+
+### Context Uploads
+
+Upload company data such as previous campaigns or feedback to improve simulations over time.
+
+### Geographic Visualization
+
+Visual representation of synthetic individuals distributed across Zürich.
 
 ---
 
-## Tech stack  
+# How it Works
+
+Collective OS follows a three-phase workflow:
+
+### 1. Define Population
+
+Users configure the synthetic population using modular parameter blocks.
+
+### 2. Define Stimulus
+
+Users introduce a decision, campaign, or event to simulate.
+
+### 3. Run Simulation
+
+Collective OS simulates reactions and generates structured outputs.
+
+---
+
+# Architecture
+
+Collective OS is built using:
 
 - Next.js  
 - React  
 - TypeScript  
 - Tailwind CSS  
+- Python  
 - OpenAI API  
+- Brinpage  
+- Palantir  
+
+### System Layers
+
+**Simulation Layer**  
+AI-generated behavioral modeling
+
+**Analysis Layer**  
+Segment aggregation and structured metrics
+
+**Validation Layer**  
+Brinpage AI agents validate outputs
+
+**Operational Layer**  
+Palantir-based structured validation
 
 ---
 
-## Limitations  
+# Example Output Metrics
 
-This project is a prototype (demo) and should be interpreted as such.
+- Acceptance rate  
+- Purchase intent  
+- Trust impact  
+- Virality  
+- Negative reaction  
 
-- The simulation is not based on real-world calibrated datasets  
-- Outputs are generated through AI reasoning rather than validated predictive models  
-- Results should be understood as exploratory, not definitive  
-
----
-
-## Vision  
-
-The long-term vision is to evolve Collective OS into a more robust decision-support system based on:
-
-- Agent-based simulation architectures  
-- Real-world data integration  
-- Improved explainability  
-- More granular population modeling  
-
-The objective is to make complex scenario exploration both powerful and accessible.
+Metrics adapt dynamically depending on the scenario.
 
 ---
 
-## Author  
+# Use Cases
 
-Mauro Serralvo  
+Collective OS can be used for:
 
-Solo project for GenAI Hackathon Zürich 2026  
+- Product launch simulations  
+- Policy decision modeling  
+- Marketing strategy testing  
+- Public communication planning  
+- Risk analysis  
+
+---
+# Vision
+
+Collective OS explores a new category of decision-support systems:
+
+Simulating human behavior before decisions are deployed in the real world.
+
+Future improvements include:
+
+- Learning from previous simulations  
+- Company profiles  
+- Cultural diversity modeling  
+- Improved behavioral realism  
+- Multi-agent simulation architecture  
 
 ---
 
-## Disclaimer  
+# Status
 
-This project is intended for research and experimentation purposes only.  
-It is not designed for real-world decision-making without further validation.
+Collective OS is currently an MVP built during a hackathon, designed to demonstrate the concept and architecture of simulation-based decision systems.
+
+---
+
+# License
+
+MIT
